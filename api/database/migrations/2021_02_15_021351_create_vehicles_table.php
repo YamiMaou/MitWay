@@ -25,7 +25,7 @@ class CreateVehiclesTable extends Migration
             $table->string('car_numer'); // numero de placa
             $table->date('car_year');
 
-            $table->unsignedBigInteger('driver_id'); // ID fornecedor
+            $table->unsignedBigInteger('driver_id')->nullable();
             $table->foreign('driver_id')->references('id')->on('drivers')->onDelete('cascade');
 
             $table->timestamps();

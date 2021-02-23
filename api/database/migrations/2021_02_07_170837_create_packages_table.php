@@ -27,10 +27,7 @@ class CreatePackagesTable extends Migration
             $table->string('note');
 
             $table->unsignedBigInteger('typeload_id')->nullable();
-            $table->unsignedBigInteger('itinerary_id')->nullable();
-
             $table->foreign('typeload_id')->references('id')->on('typeloads')->onDelete('cascade');
-            $table->foreign('itinerary_id')->references('id')->on('itineraries_id')->onDelete('cascade');
 
             $table->timestamps();
         });

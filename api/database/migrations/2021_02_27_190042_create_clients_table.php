@@ -23,7 +23,7 @@ class CreateClientsTable extends Migration
             $table->string('mob_phone', 11);
             $table->string('phone', 11);
 
-            $table->unsignedBigInteger('address_id'); // ID fornecedor
+            $table->unsignedBigInteger('address_id')->nullable();
             $table->foreign('address_id')->references('id')->on('addresses')->onDelete('cascade');
             $table->unsignedBigInteger('file_id')->nullable();
             $table->foreign('file_id')->references('id')->on('files')->onDelete('cascade');

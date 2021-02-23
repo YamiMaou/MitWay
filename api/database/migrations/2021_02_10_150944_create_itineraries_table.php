@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateManagerProvidersTable extends Migration
+class CreateItinerariesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -18,7 +18,7 @@ class CreateManagerProvidersTable extends Migration
 
             $table->string('zipcode', 8);
 
-            $table->unsignedBigInteger('package_id');
+            $table->unsignedBigInteger('package_id')->nullable();;
 
             $table->foreign('package_id')->references('id')->on('packages')->onDelete('cascade');
 
