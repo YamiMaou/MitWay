@@ -9,14 +9,20 @@ import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
 import Typography from '@material-ui/core/Typography';
 //
-import { Map, GoogleApiWrapper } from 'google-maps-react';
+import { Map, GoogleApiWrapper, Marker  } from 'google-maps-react';
 //
 
 import { setSnackbar } from '../../actions/appActions'
 class Home extends Component {
-    state = {
+    constructor(props) {
+        super(props);
+        this.state = {
         item: undefined,
-    }
+          stores: [
+            { latitude: -26.9853947, longitude: -52.603549, local: "Cordilheira Alta" },
+            { latitude: -26.9605363, longitude: -52.5335505, local: "Xaxim" },]
+        }
+      }
 
     async componentDidMount() {
     }
@@ -57,12 +63,14 @@ class Home extends Component {
                     <Typography variant="body2" color="textSecondary" component="p">
                         Você foi Autenticado com sucesso.
                     </Typography>
+                    <div style={{width: 550}}>
                     <Map
                         google={this.props.google}
                         zoom={7}
                         initialCenter={{ lat: -27.0922364, lng: -52.6166878 }}
                     >
                     </Map>
+                    </div>
                     </CardContent>
                     <CardActionArea>
                     </CardActionArea>
@@ -83,7 +91,7 @@ const mapDispatchToProps = dispatch =>
 export default connect(mapStateToProps, mapDispatchToProps)(
     GoogleApiWrapper(
         (props) => ({
-          apiKey: 'AIzaSyCXFDRyQSVK8NCb5FZGyBuUB5Tqmv0jCxk',
+          apiKey: 'AIzaSyCm1SEG70f9yrAfpSWN6LYFUg1vOBD0oUQ',
         }
-      ))(MapContainer)
+      ))(Home)
 )
