@@ -13,14 +13,14 @@ class CreateManagerProvidersTable extends Migration
      */
     public function up()
     {
-        Schema::create('manager_providers', function (Blueprint $table) {
+        Schema::create('itineraries', function (Blueprint $table) {
             $table->id();
 
-            $table->unsignedBigInteger('manager_id');
-            $table->unsignedBigInteger('provider_id');
+            $table->string('zipcode', 8);
 
-            $table->foreign('manager_id')->references('id')->on('managers')->onDelete('cascade');
-            $table->foreign('provider_id')->references('id')->on('providers')->onDelete('cascade');
+            $table->unsignedBigInteger('package_id');
+
+            $table->foreign('package_id')->references('id')->on('packages')->onDelete('cascade');
 
             $table->timestamps();
         });
@@ -33,7 +33,7 @@ class CreateManagerProvidersTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('manager_providers');
+        Schema::dropIfExists('itineraries');
     }
 }
 

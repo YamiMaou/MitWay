@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateContractsTable extends Migration
+class CreateQualificationsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,14 +13,15 @@ class CreateContractsTable extends Migration
      */
     public function up()
     {
-        Schema::create('contracts', function (Blueprint $table) {
+        Schema::create('qualifications', function (Blueprint $table) {
             $table->id();
-            $table->string('title');
-            $table->decimal('value', 8,2);
 
-            $table->unsignedBigInteger('provider_id'); // ID fornecedor
-            $table->foreign('provider_id')->references('id')->on('providers')->onDelete('cascade');
+            $table->string('title', 100);
+            $table->string('description', 100);
 
+            $table->unsignedBigInteger('driver_id');
+            $table->foreign('driver_id')->references('id')->on('drivers')->onDelete('cascade');
+                        
             $table->timestamps();
         });
     }
@@ -32,6 +33,6 @@ class CreateContractsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('contracts');
+        Schema::dropIfExists('qualifications');
     }
 }
