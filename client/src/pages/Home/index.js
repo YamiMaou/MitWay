@@ -9,6 +9,8 @@ import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
 import Typography from '@material-ui/core/Typography';
 //
+import { Map, GoogleApiWrapper } from 'google-maps-react';
+//
 
 import { setSnackbar } from '../../actions/appActions'
 class Home extends Component {
@@ -55,6 +57,12 @@ class Home extends Component {
                     <Typography variant="body2" color="textSecondary" component="p">
                         Você foi Autenticado com sucesso.
                     </Typography>
+                    <Map
+                        google={this.props.google}
+                        zoom={7}
+                        initialCenter={{ lat: -27.0922364, lng: -52.6166878 }}
+                    >
+                    </Map>
                     </CardContent>
                     <CardActionArea>
                     </CardActionArea>
@@ -72,4 +80,10 @@ const mapStateToProps = store => ({
 const mapDispatchToProps = dispatch =>
     bindActionCreators({ setSnackbar }, dispatch);
 
-export default connect(mapStateToProps, mapDispatchToProps)(Home)
+export default connect(mapStateToProps, mapDispatchToProps)(
+    GoogleApiWrapper(
+        (props) => ({
+          apiKey: 'AIzaSyCXFDRyQSVK8NCb5FZGyBuUB5Tqmv0jCxk',
+        }
+      ))(MapContainer)
+)
