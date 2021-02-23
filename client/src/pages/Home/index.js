@@ -19,8 +19,8 @@ class Home extends Component {
         this.state = {
         item: undefined,
           stores: [
-            { latitude: -26.9853947, longitude: -52.603549, local: "Cordilheira Alta" },
-            { latitude: -26.9605363, longitude: -52.5335505, local: "Xaxim" },]
+            { latitude: -23.668340, longitude: -46.791490, local: "Cordilheira Alta" },
+            { latitude: -23.671700, longitude: -46.773200, local: "Xaxim" },]
         }
       }
 
@@ -31,6 +31,25 @@ class Home extends Component {
         this.props.setDialog(true)
         this.setState({ ...this.state, item });
     }
+    displayMarkers = () => {
+        let iconMarker = new window.google.maps.MarkerImage(
+            "https://lh3.googleusercontent.com/bECXZ2YW3j0yIEBVo92ECVqlnlbX9ldYNGrCe0Kr4VGPq-vJ9Xncwvl16uvosukVXPfV=w300",
+            null, /* size is determined at runtime */
+            null, /* origin is 0,0 */
+            null, /* anchor is bottom center of the scaled image */
+            new window.google.maps.Size(32, 32));
+        return this.state.stores.map((store, index) => {
+          return <Marker 
+                    key={index} 
+                    id={index} 
+                    //icon={iconMarker}
+                    position={{
+                        lat: store.latitude,
+                        lng: store.longitude
+                    }}
+                />
+        })
+      }
 
     render() {
         const authData = JSON.parse(localStorage.getItem("user"));
@@ -66,9 +85,10 @@ class Home extends Component {
                     <div style={{width: 550}}>
                     <Map
                         google={this.props.google}
-                        zoom={7}
-                        initialCenter={{ lat: -27.0922364, lng: -52.6166878 }}
+                        zoom={15}
+                        initialCenter={{ lat: -23.663334, lng: -46.766396 }}
                     >
+                        {this.displayMarkers()}
                     </Map>
                     </div>
                     </CardContent>
