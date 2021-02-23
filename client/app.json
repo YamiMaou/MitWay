@@ -1,0 +1,19 @@
+{
+  "expo": {
+    "name": "Farmácia Fácil",
+    "slug": "yamitec-erp",
+    "android": {
+      "package": "com.yamitec.erp_client"
+    },
+    "platforms": [
+      "ios",
+      "android",
+      "web"
+    ]
+  },
+  "web": {
+    "publicPath": "../api/public",
+    "name": "Farmácia Fácil",
+    "favicon": "https://yamitec.com/latest/images/favicon.ico"
+  }
+}
