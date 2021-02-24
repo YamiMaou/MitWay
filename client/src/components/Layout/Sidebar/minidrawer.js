@@ -108,6 +108,8 @@ export default function MiniDrawer(props) {
   return (
     <div className={classes.root}>
       <CssBaseline />
+      { props.auth == null ? (' ') : (
+        <div>
       <AppBar
         position="fixed"
         className={clsx(classes.appBar, {
@@ -131,7 +133,7 @@ export default function MiniDrawer(props) {
           </Typography>
         </Toolbar>
       </AppBar>
-      { props.auth == null ? (' TEXT ') : (
+      
       <Drawer
         variant="permanent"
         className={clsx(classes.drawer, {
@@ -175,6 +177,7 @@ export default function MiniDrawer(props) {
           ))}
           </List> */}
       </Drawer>
+      </div>
       )}
       <main className={classes.content}>
         <div className={classes.toolbar} />

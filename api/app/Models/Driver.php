@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\User;
 use Illuminate\Database\Eloquent\Model;
 
 class Driver extends Model
@@ -43,5 +44,15 @@ class Driver extends Model
     public function service()
     {
         return $this->belongsTo(Service::class);
+    }
+
+    public function user()
+    {
+        return $this->hasOne(User::class,'driver_id', 'id');
+    }
+
+    public function addresses()
+    {
+        return $this->hasOne(Addresses::class,'driver_id', 'id');
     }
 }

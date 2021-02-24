@@ -6,8 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Addresses extends Model
 {
-    protected $table = "a
-    ddresses";
+    protected $table = "addresses";
 
     protected $fillable = [
         'zipcode',

@@ -121,10 +121,10 @@ abstract class ControllersExtends extends Controller implements ControllersInter
                     }
                     $i++;
                     $fields[$this->with["changes"]->key] = $primary->id;
-                    $model->create($fields);
+                    $model::create($fields);
                 }
             } else {
-                $obj = $this->model->create($data);
+                $obj = $this->model::create($data);
                 //FilesController::upload($request, $this->model, $obj->id);
             }
             return response()->json(["success"=> true, "type" => "store", "message" => "Cadastrado com Sucesso!"]);
@@ -164,11 +164,11 @@ abstract class ControllersExtends extends Controller implements ControllersInter
             if (count($this->with) > 0) {
                 $i = 0;
                 foreach ($this->with["data"] as $model => $fields) {
-                    $model->where($i == 0 ? 'id' : $this->with["changes"]->key, $id)->update($fields);
+                    $model::where($i == 0 ? 'id' : $this->with["changes"]->key, $id)->update($fields);
                     $i++;
                 }
             } else {
-                $this->model->where('id', $id)->update($data);
+                $this->model::where('id', $id)->update($data);
             }
            
             return response()->json(["success"=> true,"type" => "update", "message" => "Atualizado com Sucesso!"]);
