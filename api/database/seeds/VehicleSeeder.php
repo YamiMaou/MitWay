@@ -2,7 +2,7 @@
 
 use Illuminate\Database\Seeder;
 
-class ClientDriverSeeder extends Seeder
+class VehicleSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -12,6 +12,6 @@ class ClientDriverSeeder extends Seeder
     public function run()
     {
         //
-        factory(App\Models\ClientDriver::class, 7)->create();
+        factory(App\Models\Vehicle::class, 7)->create();
     }
 }

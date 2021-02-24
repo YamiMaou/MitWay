@@ -5,7 +5,7 @@
 use App\Models\Service;
 use Faker\Generator as Faker;
 
-$factory->define(Client::class, function (Faker $faker) {
+$factory->define(Service::class, function (Faker $faker) {
         return [
             'type' => $faker->word,                                               
             'name' => $faker->word,

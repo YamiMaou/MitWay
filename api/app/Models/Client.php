@@ -16,6 +16,7 @@ class Client extends Model
         'email',
         'mob_phone',
         'phone',
+        'user_id',
     ];
 
     public function files()
