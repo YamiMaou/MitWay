@@ -5,8 +5,8 @@ const cliente = JSON.parse(localStorage.getItem("cliente"));
 console.log(cliente)
 const clientStyles = cliente === null ? [
   {
-    primary: 'linear-gradient(45deg, #025ea2 30%, #0086e8 90%)' , 
-    secoundary:"#025ea2", 
+    primary: 'linear-gradient(45deg, #132e79 30%, #0086e8 90%)' , 
+    secoundary:"#132e79", 
     slides: [
       {
         label: 'San Francisco – Oakland Bay Bridge, United States',
@@ -39,9 +39,9 @@ export const themeStyle = {
   },
   palette: {
     primary: {
-      main: "#025ea2",
+      main: "#132e79",
       mainGradient: clientStyles[0].secoundary
-      //mainGradient: 'linear-gradient(45deg, #025ea2 30%, #0086e8 90%)',
+      //mainGradient: 'linear-gradient(45deg, #132e79 30%, #0086e8 90%)',
     },
     secondary:{
       main: "#0086e8",
@@ -74,7 +74,7 @@ export const styles = {
 
 export const StyledAppBar = withStyles({
   root: {
-    //background: 'linear-gradient(45deg, #025ea2 30%, #0086e8 90%)',
+    //background: 'linear-gradient(45deg, #132e79 30%, #0086e8 90%)',
     background: clientStyles[0].primary,
     borderRadius: 3,
     borderTopLeftRadius:0,

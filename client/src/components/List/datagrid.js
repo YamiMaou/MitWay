@@ -163,7 +163,7 @@ class LDataGrid extends Component {
             }
             
         });
-        let query = Object.assign({queryType : 'like', withId: "name"}, cleanfilters);
+        let query = Object.assign({queryType : 'like', withId: this.props.withId ?? undefined}, cleanfilters);
         console.log(query);
         const data = await this.props.pageRequest(query);
         if (data !== undefined) {

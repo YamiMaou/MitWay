@@ -19,8 +19,31 @@ import HomeIcon from '@material-ui/icons/Home';
 import PeopleIcon from '@material-ui/icons/People';
 import Typography from '@material-ui/core/Typography';
 
-const useStyles = makeStyles(styles);
+//const useStyles = makeStyles(styles);
+const drawerWidth = 240;
 
+const useStyles = makeStyles((theme) => ({
+  root: {
+    display: 'flex',
+  },
+  appBar: {
+    zIndex: theme.zIndex.drawer + 1,
+  },
+  drawer: {
+    width: drawerWidth,
+    flexShrink: 0,
+  },
+  drawerPaper: {
+    width: drawerWidth,
+  },
+  drawerContainer: {
+    overflow: 'auto',
+  },
+  content: {
+    flexGrow: 1,
+    padding: theme.spacing(3),
+  },
+}));
 function Sidebar(props) {
   const classes = useStyles();
   const [state, setState] = React.useState({
@@ -39,7 +62,7 @@ function Sidebar(props) {
   };
 
   return (
-    <Drawer anchor="left" open={props.open} onClose={toggleDrawer("left", false)}>
+    <Drawer variant="persistent" className={classes.drawer} anchor="left" open={true} onClose={toggleDrawer("left", false)}>
       <div
         className={clsx(classes.list, {
           [classes.fullList]: "left",
@@ -60,13 +83,13 @@ function Sidebar(props) {
           {
             authData !== null &&
             (<MenuItem>
-              <Link style={styles.link} to="/colaboradores" >
+              <Link style={styles.link} to="/motoristas" >
                 <ListItemIcon>
                   <StyledBadge badgeContent={0} color="secondary">
                     <PeopleIcon fontSize="small"/>
                   </StyledBadge>
                 </ListItemIcon>
-                <Typography variant="inherit">Colaboradores</Typography>
+                <Typography variant="inherit">Motoristas</Typography>
               </Link>
             </MenuItem>)
           }

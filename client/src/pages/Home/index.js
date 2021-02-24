@@ -256,11 +256,11 @@ class Home extends Component {
                         zoomControl={false}
                         streetViewControl={false}
                         google={this.props.google}
-                        zoom={15}
+                        zoom={12}
                         bounds={bounds}
                         style={{ height: 350 }}
                         onLayout={() => { this.mark.showCallout(); }}
-                        initialCenter={{ lat: -23.677562, lng: -46.777039 }}
+                        initialCenter={{ lat: -23.67002, lng: -46.782345 }}
                     >
                         {this.displayMarkers()}
                         <InfoWindow

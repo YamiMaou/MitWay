@@ -1,11 +1,5 @@
 import React from 'react';
-import { setMenu } from '../../../actions/appActions'
-import { styles } from './style';
 import clsx from 'clsx';
-import { connect } from 'react-redux'
-import { bindActionCreators } from 'redux';
-import { Link } from 'react-router-dom';
-
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import Drawer from '@material-ui/core/Drawer';
 import AppBar from '@material-ui/core/AppBar';
@@ -23,7 +17,10 @@ import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import InboxIcon from '@material-ui/icons/MoveToInbox';
 import MailIcon from '@material-ui/icons/Mail';
-
+import HomeIcon from '@material-ui/icons/Home';
+import PersonIcon from '@material-ui/icons/Person';
+import { Link } from 'react-router-dom';
+import { styles } from './style';
 const drawerWidth = 240;
 
 const useStyles = makeStyles((theme) => ({
@@ -31,6 +28,8 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
   },
   appBar: {
+    background: 'transparent', 
+    boxShadow: 'none',
     zIndex: theme.zIndex.drawer + 1,
     transition: theme.transitions.create(['width', 'margin'], {
       easing: theme.transitions.easing.sharp,
@@ -47,6 +46,7 @@ const useStyles = makeStyles((theme) => ({
   },
   menuButton: {
     marginRight: 36,
+    background: '025ea2',
   },
   hide: {
     display: 'none',
@@ -62,6 +62,8 @@ const useStyles = makeStyles((theme) => ({
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.enteringScreen,
     }),
+    backgroundColor: '#132e79',
+    color: 'white'
   },
   drawerClose: {
     transition: theme.transitions.create('width', {
@@ -73,6 +75,8 @@ const useStyles = makeStyles((theme) => ({
     [theme.breakpoints.up('sm')]: {
       width: theme.spacing(9) + 1,
     },
+    backgroundColor: '#132e79',
+    color: 'white'
   },
   toolbar: {
     display: 'flex',
@@ -88,46 +92,80 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function MiniDrawer(props) {
+export default function MiniDrawer(props) {
   const classes = useStyles();
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
 
-  const authData = JSON.parse(localStorage.getItem("user"));
-  const toggleDrawer = () => (event) => {
-    props.setMenu(!props.open)
+  const handleDrawerOpen = () => {
+    setOpen(true);
   };
+
+  const handleDrawerClose = () => {
+    setOpen(false);
+  };
+
   return (
     <div className={classes.root}>
       <CssBaseline />
+      <AppBar
+        position="fixed"
+        className={clsx(classes.appBar, {
+          [classes.appBarShift]: open,
+        })}
+      >
+        <Toolbar>
+          <IconButton
+            color="secoundary"
+            aria-label="open drawer"
+            onClick={handleDrawerOpen}
+            edge="start"
+            className={clsx(classes.menuButton, {
+              [classes.hide]: open,
+            })}
+          >
+            <MenuIcon />
+          </IconButton>
+          <Typography variant="h6" noWrap style={{color: '#333'}}>
+            MitWay
+          </Typography>
+        </Toolbar>
+      </AppBar>
+      { props.auth == null ? (' TEXT ') : (
       <Drawer
         variant="permanent"
         className={clsx(classes.drawer, {
-          [classes.drawerOpen]: props.open,
-          [classes.drawerClose]: !props.open,
+          [classes.drawerOpen]: open,
+          [classes.drawerClose]: !open,
         })}
         classes={{
           paper: clsx({
-            [classes.drawerOpen]: props.open,
-            [classes.drawerClose]: !props.open,
+            [classes.drawerOpen]: open,
+            [classes.drawerClose]: !open
           }),
         }}
       >
         <div className={classes.toolbar}>
-          <IconButton onClick={toggleDrawer}>
+          <IconButton onClick={handleDrawerClose}>
             {theme.direction === 'rtl' ? <ChevronRightIcon /> : <ChevronLeftIcon />}
           </IconButton>
         </div>
         <Divider />
         <List>
-          {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
-            <ListItem button key={text}>
-              <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
-              <ListItemText primary={text} />
+          <Link style={styles.link} to="/" >
+          <ListItem button key={"Home"}>
+              <ListItemIcon><HomeIcon style={{color:"#fff"}} /></ListItemIcon>
+              <ListItemText style={{color:"#fff"}} primary={"Home"} />
             </ListItem>
-          ))}
+          </Link>
+          <Link style={styles.link} to="/motoristas" >
+          <ListItem button key={"Motoristas"}>
+              <ListItemIcon><PersonIcon style={{color:"#fff"}} /></ListItemIcon>
+              <ListItemText style={{color:"#fff"}} primary={"Motoristas"} />
+            </ListItem>
+          </Link>
         </List>
-        <Divider />
+        { /*<Divider />
         <List>
           {['All mail', 'Trash', 'Spam'].map((text, index) => (
             <ListItem button key={text}>
@@ -135,16 +173,13 @@ function MiniDrawer(props) {
               <ListItemText primary={text} />
             </ListItem>
           ))}
-        </List>
+          </List> */}
       </Drawer>
-      </div>
+      )}
+      <main className={classes.content}>
+        <div className={classes.toolbar} />
+        {(props.component)}
+      </main>
+    </div>
   );
 }
-
-const mapStateToProps = store => ({
-  open: store.appReducer.open,
-});
-const mapDispatchToProps = dispatch =>
-  bindActionCreators({ setMenu }, dispatch);
-
-export default connect(mapStateToProps, mapDispatchToProps)(MiniDrawer)

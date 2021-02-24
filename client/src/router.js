@@ -11,9 +11,9 @@ import MiniDrawer from './components/Layout/Sidebar/minidrawer'
 
 import Home from './pages/Home';
 import Login from './pages/Login';
-import Contributors from './pages/Contributors';
-import CreateContributors from './pages/Contributors/create';
-import EditContributors from './pages/Contributors/edit';
+import Drivers from './pages/Motoristas';
+import CreateDrivers from './pages/Motoristas/create';
+import EditDrivers from './pages/Motoristas/edit';
 import LauncherDialog from './components/Loading/LauncherLoading'
 import Header from './components/Layout/Header'
 import {themeStyle} from './components/Layout/Header/style'
@@ -32,6 +32,7 @@ import { setSnackbar } from './actions/appActions';
 // Theme
 const YamiTheme = createMuiTheme(themeStyle)
   //background: 'linear-gradient(45deg, #025ea2 30%, #0086e8 90%)',
+  
 
 const AppRouter = (props) => {
   const closeSnack = (event, reason) => {
@@ -39,44 +40,43 @@ const AppRouter = (props) => {
         return;
     }
     props.setSnackbar({ open: false, message: "" });
-};
-function TransitionDown(props) {
-  return <Slide {...props} direction="down" />;
-}
-function Alert(props) {
-  return <MuiAlert elevation={6} variant="filled" {...props} />;
-}
+  };
+  function TransitionDown(props) {
+    return <Slide {...props} direction="down" />;
+  }
+  function Alert(props) {
+    return <MuiAlert elevation={6} variant="filled" {...props} />;
+  }
   const authData = JSON.parse(localStorage.getItem("user"));
   const isAuth = authData !== null ? true : false;
   return props.products !== undefined ? (<LauncherDialog />) : (
   <ThemeProvider theme={YamiTheme}>
-    { authData !== null ? <Header /> : '' }
-    <Container maxWidth="xl" style={{ overflow: 'hidden', paddingTop: 80, background: '#f1f1f1', height: window.innerHeight, overflow:'auto' }}>
-      <Box>
-      <Snackbar
-        anchorOrigin={{ vertical:'top', horizontal: 'center' }}
-        open={props.snackbar.open}
-        autoHideDuration={3000}
-        onClose={closeSnack}
-        TransitionComponent={TransitionDown}
-        message={props.snackbar.message}
-        key="snb"
-      />
-     
+    <Box>
+    <Snackbar
+          anchorOrigin={{ vertical:'top', horizontal: 'center' }}
+          open={props.snackbar.open}
+          autoHideDuration={3000}
+          onClose={closeSnack}
+          TransitionComponent={TransitionDown}
+          message={props.snackbar.message}
+          key="snb"
+        />
+
         <Router>
-          <Switch>
-            <Route path="/login" exact={true} component={Login} />
-            <Route path="/" exact={true} render={() => (isAuth ?  <Home /> : <Redirect push to="/login" />)} />
-            <Route path="/colaboradores" exact={true} render={() => (isAuth ?  <Contributors /> : <Redirect push to="/login" />)} />
-            <Route path="/colaboradores/novo" exact={true} render={() => (isAuth ?  <CreateContributors /> : <Redirect push to="/login" />)} />
-            <Route path="/colaboradores/:id" exact={true} render={() => (isAuth ?  <EditContributors /> : <Redirect push to="/login" />)} />
-            <Route path="*">
-              <Box>
-                <View> Pagina não encontrada.</View>
-              </Box>
-            </Route>
-          </Switch>
-          <Sidebar />
+          <Layout>
+            <Switch>
+              <Route path="/login" exact={true} component={Login} />
+              <Route path="/" exact={true} render={() => (isAuth ?  <Home /> : <Redirect push to="/login" />)} />
+              <Route path="/motoristas" exact={true} render={() => (isAuth ?  <Drivers /> : <Redirect push to="/login" />)} />
+              <Route path="/motoristas/novo" exact={true} render={() => (isAuth ?  <CreateDrivers /> : <Redirect push to="/login" />)} />
+              <Route path="/motoristas/:id" exact={true} render={() => (isAuth ?  <EditDrivers /> : <Redirect push to="/login" />)} />
+              <Route path="*">
+                <Box>
+                  <View> Pagina não encontrada.</View>
+                </Box>
+              </Route>
+            </Switch>
+          </Layout>
           { /*window.innerWidth < 767 &&
             <BottonNav />}
           {window.innerWidth >= 767 &&
@@ -84,10 +84,17 @@ function Alert(props) {
         </ Router>
         <Footer />
       </Box>
-    </Container>
   </ThemeProvider>)
 //)};
 }
+
+const Layout = (props) => {
+  const authData = JSON.parse(localStorage.getItem("user"));
+  
+  return ( 
+  <MiniDrawer auth={authData} component={props.children} />
+  )
+} 
 
 const styles = StyleSheet.create({
   container: {
