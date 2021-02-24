@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateTypeloadsTable extends Migration
+class CreateClientDriversTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,11 @@ class CreateTypeloadsTable extends Migration
      */
     public function up()
     {
-        Schema::create('typeloads', function (Blueprint $table) {
+        Schema::create('client_drivers', function (Blueprint $table) {
             $table->id();
 
-            $table->text('type', 50);
-            $table->decimal('code', 50)->nullable();
-            $table->text('description', 50)->nullable();
+            $table->unsignedBigInteger('client_id');
+            $table->unsignedBigInteger('driver_id');
 
             $table->timestamps();
         });
@@ -31,6 +30,6 @@ class CreateTypeloadsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('typeloads');
+        Schema::dropIfExists('client_drivers');
     }
 }

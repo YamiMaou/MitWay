@@ -12,23 +12,17 @@ class File extends Model
         'title',
         'name',
         'path',
-        'provider_id',
-        'contributors_id',
-        'manager_id'
+        'client_id',
+        'driver_id',
     ];
 
-    public function provider()
+    public function client()
     {
-        return $this->belongsTo(Provider::class);
+        return $this->belongsTo(Client::class);
     }
 
-    public function contributor()
+    public function driver()
     {
-        return $this->belongsTo(Contributors::class);
-    }
-
-    public function manager()
-    {
-        return $this->belongsTo(Manager::class);
+        return $this->belongsTo(Driver::class);
     }
 }

@@ -16,12 +16,32 @@ class Driver extends Model
         'email',
         'mob_phone',
         'phone',
-        'package_id',
-        'address_id'
+        'address_id',
+        'service_id'
     ];
 
     public function qualifications()
     {
-        return $this->belongsToMany(Qualification::class, 'driver_qualifications', 'driver_id', 'qualification_id');
+        return $this->hasMany(Qualification::class, 'driver_qualifications', 'driver_id', 'qualification_id');
+    }
+
+    public function clients()
+    {
+        return $this->hasMany(Client::class, 'client_drivers', 'driver_id' ,'client_id');
+    }
+
+    public function files()
+    {
+        return $this->hasMany(File::class);
+    }
+
+    public function vehicle()
+    {
+        return $this->hasOne(Vehicle::class);
+    }
+
+    public function service()
+    {
+        return $this->belongsTo(Service::class);
     }
 }
