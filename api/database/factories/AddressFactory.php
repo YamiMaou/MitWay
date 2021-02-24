@@ -15,7 +15,7 @@ $factory->define(Addresses::class, function (Faker $faker) {
             'zipcode' => $faker->numerify('########'),                                               
             'street' => $faker->streetName,                                               
             'number' => $faker->randomNumber(4),
-            'additional' => $faker->text,
+            'additional' => $faker->word,
             'city' => $faker->city,
             'uf' => $faker->word,
             'driver_id' => function () {

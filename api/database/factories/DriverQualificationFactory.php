@@ -2,6 +2,7 @@
 
 /** @var \Illuminate\Database\Eloquent\Factory $factory */
 
+use App\Models\Driver;
 use App\Models\DriverQualification;
 use App\Models\Qualification;
 use Faker\Generator as Faker;

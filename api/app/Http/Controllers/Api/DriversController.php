@@ -21,61 +21,72 @@ class DriversController extends ControllersExtends
 
     public function update(Req $request, $id)
     {
-        $drivers = [
-            "cpf_cnpj" => $request->cpf_cnpj,
-            "fullname" => $request->fullname,
-            "birthdate"=> $request->birthdate,
-            "mob_phone"=>$request->mob_phone,
-            "phone" => $request->phone,
-            "email" => $request->email,
-            "cnh" => $request->cnh
-        ];
-        $address = [
-            "uf" => $request->uf,
-            "number" => $request->number,
-            "city" => $request->city,
-            "additional" => $request->additional,
-            "street" => $request->street,
-            "zipcode" => $request->zipcode,
-        ];
-        parent::withAndChange([
-            \App\Models\Driver::class => $drivers,
-            \App\Models\Address::class => $address,
-        ],
-        ["permiss" => true, "key" => "driver_id"]);
+        try {
+            $drivers = [
+                "cpf_cnpj" => $request->cpf_cnpj,
+                "fullname" => $request->fullname,
+                "birthdate"=> $request->birthdate,
+                "mob_phone"=>$request->mob_phone,
+                "phone" => $request->phone,
+                "email" => $request->email,
+                "cnh" => $request->cnh
+            ];
+            $address = [
+                "uf" => $request->uf,
+                "number" => $request->number,
+                "city" => $request->city,
+                "additional" => $request->additional,
+                "street" => $request->street,
+                "zipcode" => $request->zipcode,
+            ];
+            parent::withAndChange([
+                \App\Models\Driver::class => $drivers,
+                \App\Models\Addresses::class => $address,
+            ],
+            ["permiss" => true, "key" => "driver_id"]);
 
-        return parent::update($request, $id);
+            return parent::update($request, $id);
+        } catch (\Exception $error) {
+            return response()->json(["success"=> false, "type" => "error", "message" => "Problema ao Atualizar. ", "error" => $error->getMessage()], 201);
+        }
     }   
 
     public function store(Req $request){
-        $drivers = [
-            "cpf_cnpj" => $request->cpf_cnpj,
-            "fullname" => $request->fullname,
-            "birthdate"=> $request->birthdate,
-            "mob_phone"=>$request->mob_phone,
-            "phone" => $request->phone,
-            "email" => $request->email,
-            "cnh" => $request->cnh
-        ];
-        $address = [
-            "uf" => $request->uf,
-            "number" => $request->number,
-            "city" => $request->city,
-            "additional" => $request->additional,
-            "street" => $request->street,
-            "zipcode" => $request->zipcode,
-        ];
-        $users = [
-            "name" => $request->fullname,
-            "email" => $request->email,
-            "password" => Hash::make($request->cpf_cnpj),
-        ];
-        parent::withAndChange([
-            \App\Models\Driver::class => $drivers,
-            \App\Models\Addresses::class => $address,
-            \App\User::class => $users
-        ],
-        ["permiss" => true, "key" => "driver_id"]);
-        return parent::store($request);
+        try{
+            $users = [
+                "name" => $request->fullname,
+                "email" => $request->email,
+                "password" => Hash::make($request->cpf_cnpj),
+            ];
+            $user = \App\User::create($users);
+
+            $drivers = [
+                "cpf_cnpj" => $request->cpf_cnpj,
+                "fullname" => $request->fullname,
+                "birthdate"=> $request->birthdate,
+                "mob_phone"=>$request->mob_phone,
+                "phone" => $request->phone,
+                "email" => $request->email,
+                "cnh" => $request->cnh,
+                'user_id' => $user->id
+            ];
+            $address = [
+                "uf" => $request->uf,
+                "number" => $request->number,
+                "city" => $request->city,
+                "additional" => $request->additional,
+                "street" => $request->street,
+                "zipcode" => $request->zipcode,
+            ];
+            
+            parent::withAndChange([
+                \App\Models\Driver::class => $drivers,
+                \App\Models\Addresses::class => $address
+            ],
+            ["permiss" => true, "key" => "driver_id"]);
+            return parent::store($request);
+        } catch (\Exception $error) {
+            return response()->json(["success"=> false, "type" => "error", "message" => "Problema ao Cadastrar. ", "error" => $error->getMessage()], 201);
+        }
     }
 }

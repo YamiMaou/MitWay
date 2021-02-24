@@ -9,7 +9,7 @@ $factory->define(Service::class, function (Faker $faker) {
         return [
             'type' => $faker->word,                                               
             'name' => $faker->word,
-            'description' => $faker->text,
+            'description' => $faker->word,
             
     ];
 });

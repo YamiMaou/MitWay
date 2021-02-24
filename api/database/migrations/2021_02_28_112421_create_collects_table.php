@@ -16,7 +16,7 @@ class CreateCollectsTable extends Migration
         Schema::create('collects', function (Blueprint $table) {
             $table->id();
 
-            $table->dateTime('hour');
+            $table->time('hour');
             $table->date('date', 15);
 
             $table->unsignedBigInteger('package_id')->nullable();

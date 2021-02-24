@@ -16,7 +16,7 @@ class CreateDeliveriesTable extends Migration
         Schema::create('deliveries', function (Blueprint $table) {
             $table->id();
 
-            $table->dateTime('hour');
+            $table->time('hour');
             $table->date('date', 15);
 
             $table->unsignedBigInteger('package_id')->nullable();

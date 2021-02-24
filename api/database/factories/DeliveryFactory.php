@@ -2,11 +2,11 @@
 
 /** @var \Illuminate\Database\Eloquent\Factory $factory */
 
-use App\Models\Collect;
+use App\Models\Delivery;
 use App\Models\Packages;
 use Faker\Generator as Faker;
 
-$factory->define(Collect::class, function (Faker $faker) {
+$factory->define(Delivery::class, function (Faker $faker) {
         return [
             'hour' => $faker->time,                                               
             'date' => $faker->date, 

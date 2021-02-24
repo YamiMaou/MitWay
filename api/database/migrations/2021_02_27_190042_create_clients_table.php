@@ -20,8 +20,8 @@ class CreateClientsTable extends Migration
             $table->string('company_name', 100);
             $table->string('fantasy_name', 100);
             $table->string('email', 100);
-            $table->string('mob_phone', 11);
-            $table->string('phone', 11);
+            $table->string('mob_phone', 30);
+            $table->string('phone', 30);
 
             $table->unsignedBigInteger('user_id');
            // $table->unsignedBigInteger('file_id')->nullable();

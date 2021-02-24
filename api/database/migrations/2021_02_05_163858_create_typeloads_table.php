@@ -17,7 +17,7 @@ class CreateTypeloadsTable extends Migration
             $table->id();
 
             $table->string('type', 50);
-            $table->decimal('code', 50)->nullable();
+            $table->string('code', 50)->nullable();
             $table->text('description', 50)->nullable();
 
             $table->timestamps();
