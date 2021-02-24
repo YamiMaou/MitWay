@@ -40,6 +40,7 @@ function lower(obj) {
 /// Auth API Methods
 
 export const postAuth = async (params = {}) => {
+  localStorage.setItem("sessionTime", 900)
   const data = Object.entries(params)
     .map(([key, val]) => `${key}=${encodeURIComponent(val)}`)
     .join('&');
@@ -57,8 +58,9 @@ export const postAuth = async (params = {}) => {
     return { data: { success: false, message: "problema ao se conectar com o servidor!" } }
   }
 };
-/// list products
+/// list contributors
 export const getApiContributors = async (params = '',id = undefined) => {
+  localStorage.setItem("sessionTime", 900)
   const data = Object.entries(params)
     .map(([key, val]) => `${key}=${encodeURIComponent(val)}`)
     .join('&');
@@ -77,8 +79,9 @@ export const getApiContributors = async (params = '',id = undefined) => {
     return { data: { success: false, message: "problema ao se conectar com o servidor!" } }
   });
 }
-/// create products
+/// create contributors
 export const postApiContributors = async (params = {}) => {
+  localStorage.setItem("sessionTime", 900)
   const data = new FormData();
   Object.entries(params)
     .map(([key, val]) => {
@@ -106,8 +109,9 @@ export const postApiContributors = async (params = {}) => {
   }
 }
 
-/// update products
+/// update contributors
 export const putApiContributors = async (id,params = {}) => {
+  localStorage.setItem("sessionTime", 900)
   params.justification = params.justification  ?? "Update";
   const data = new FormData();
   data.append("_method", "put");
@@ -136,9 +140,31 @@ export const putApiContributors = async (id,params = {}) => {
     return { data: { success: false, error, message: "problema ao se conectar com o servidor!" } }
   }
 }
+//Download Document
+export const getApiDownloadFile = async (params = '') => {
+  localStorage.setItem("sessionTime", 900)
+  axios({
+    method: 'post',
+    url: `${apiHost}/contributors/downloads?file_name=${params}`,
+    responseType: 'arraybuffer',
+    //data: dates
+  }).then(function(response) {
+    console.log(response.data);
+    let blob = new Blob([response.data], { type: 'application/jpeg' })
+    let link = document.createElement('a')
+    link.href = window.URL.createObjectURL(blob)
+    link.download = 'Documento.jpg'
+    link.click();
+  }).catch((error) => {
+    console.log('Whoops! Houve um erro.', error.message || error)
+    return { data: { success: false, message: "problema ao se conectar com o servidor!" } }
+  });
+}
+
 
 // get address ViaCep
 export const getAddressByCepla = async (params = '') => {
+  localStorage.setItem("sessionTime", 900)
   if (params.length >= 8) {
     const data = Object.entries(params)
       .map(([key, val]) => `${key}=${encodeURIComponent(val)}`)

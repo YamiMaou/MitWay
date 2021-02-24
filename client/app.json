@@ -1,6 +1,6 @@
 {
   "expo": {
-    "name": "Farmácia Fácil",
+    "name": "MitWay",
     "slug": "yamitec-erp",
     "android": {
       "package": "com.yamitec.erp_client"
@@ -13,7 +13,7 @@
   },
   "web": {
     "publicPath": "../api/public",
-    "name": "Farmácia Fácil",
+    "name": "MitWay",
     "favicon": "https://yamitec.com/latest/images/favicon.ico"
   }
 }

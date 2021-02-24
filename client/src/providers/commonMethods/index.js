@@ -8,6 +8,10 @@ export const stringToaddDate = (_date,_format,add = { qtd : 1, period : 'M'}) =>
   return moment(_date).add(add.qtd, add.period).format(_format);
 }
 
+export const isFutureData = (_value) => {
+  let today = Date.now()
+  return new Date(_value) < today;
+}
 export const formatToBRL = (_valor) => {
   
   _valor = _valor + '';
