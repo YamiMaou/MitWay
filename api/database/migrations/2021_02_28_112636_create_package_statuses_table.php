@@ -15,6 +15,15 @@ class CreatePackageStatusesTable extends Migration
     {
         Schema::create('package_statuses', function (Blueprint $table) {
             $table->id();
+
+            $table->string('flag', 50)->default('no horario'); // atrasado, no horaro
+
+            $table->unsignedBigInteger('collect_id')->nullable();
+            $table->unsignedBigInteger('delivery_id')->nullable();
+            
+            $table->foreign('collect_id')->references('id')->on('collects')->onDelete('cascade');
+            $table->foreign('delivery_id')->references('id')->on('deliveries')->onDelete('cascade');
+
             $table->timestamps();
         });
     }

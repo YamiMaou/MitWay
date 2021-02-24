@@ -32,4 +32,9 @@ class Client extends Model
     {
         return $this->hasMany(Driver::class, 'client_drivers', 'client_id', 'driver_id');
     }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 }
