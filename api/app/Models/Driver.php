@@ -18,7 +18,8 @@ class Driver extends Model
         'mob_phone',
         'phone',
         'address_id',
-        'service_id'
+        'service_id',
+        'user_id'
     ];
 
     public function qualifications()
@@ -48,7 +49,7 @@ class Driver extends Model
 
     public function user()
     {
-        return $this->hasOne(User::class,'driver_id', 'id');
+        return $this->hasOne(User::class,'id', 'user_id');
     }
 
     public function addresses()

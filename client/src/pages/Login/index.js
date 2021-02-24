@@ -17,6 +17,10 @@ import Slide from '@material-ui/core/Slide';
 import logo from '../../../assets/logo.png'
 
 import InputMask from 'react-input-mask';
+import { Typography } from '@material-ui/core';
+import Paper from '@material-ui/core/Paper';
+import Tabs from '@material-ui/core/Tabs';
+import Tab from '@material-ui/core/Tab';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -54,6 +58,13 @@ function FullScreenInvoiceDialog(props) {
 
   const { aDialog } = props;
 
+  const [value, setValue] = React.useState(2);
+
+  const handleChange = (event, newValue) => {
+    console.log(newValue);
+    setValue(newValue);
+  };
+
   function onChange(e) {
     let dt = dados;
     dt[e.target.id] = e.target.value
@@ -79,12 +90,52 @@ function FullScreenInvoiceDialog(props) {
   }
   //
   return (
-    <div>
-      <img src={logo} style={{display: 'flex', margin: 'auto'}} height="150" width="150" />
+    <div style={{
+      flex: 1,
+      top: 0,
+      display: 'flex',
+      marginTop: -89,
+      marginLeft: -24,
+      flexDirection: 'row'
+    }}>
+      <div style={{
+        flexBasis: '42%',
+        background: '#132e79',
+        height: window.innerHeight
+      }}>
+      
+      </div>
+      <div style={{
+        display: 'flex',
+        flexDirection: 'column',
+        margin: 'auto',
+        padding: 25,
+      }}>
       <form id="loginform" onSubmit={onSubmit}>
-        
-        <Card className={classes.root}>
-            <CardContent>
+        <div style={{
+          marginBottom: 15
+        }}>
+          <Typography variant="h4" style={{width: 320}}>
+            <b>Seja bem vindo(a) a nossa plataforma</b>
+          </Typography>
+          <Typography variant="body1" style={{color: '#ccc', width: 320}}>
+            Construction starts as soon asenough bricks are funded<br /> for the smallest piece of work
+          </Typography>
+        </div>
+        <div className={classes.root} style={{marginLeft: 15}}>
+        <Paper square>
+          <Tabs
+            value={value}
+            indicatorColor="primary"
+            textColor="primary"
+            onChange={handleChange}
+            aria-label="Login"
+          >
+              <Tab style={{background: value == 0 ?'blue': 'white'}} label="Motorista" />
+              <Tab style={{background: value == 1 ?'blue': 'white'}} label="Empresa" />
+          </Tabs>
+          </Paper>
+            <div>
               <div>
               {/*<InputMask id="username" label="Usuário" mask="999.999.999-99" maskChar=" " onChange={onChange}>
                 {(inputProps) =>
@@ -111,14 +162,23 @@ function FullScreenInvoiceDialog(props) {
                 onChange={onChange}
                 onBlur={onChange} />
               </div>
-            </CardContent>
+            </div>
             
          
-          <CardActions>
+          <div style={{
+            
+            justifyContent: 'start'
+            
+          }}>
+            <div style={{marginTop: 15,marginBottom: 15}}>
+              <a href="">Esqueceu a senha?</a>
+            </div>
+            
+            <br /> 
             {!loading ? (
-            <Button variant="contained" size="large" fullWidth color="primary" disableElevation type="submit" form="loginform"
+            <Button variant="contained" size="large" color="primary" disableElevation type="submit" form="loginform"
             style={{
-              background: 'linear-gradient(45deg, #025ea2 30%, #0086e8 90%)',
+              background: 'linear-gradient(45deg, 132e79 30%, #025ea2 90%)',
             }}>
               Entrar 
             </Button>
@@ -126,10 +186,11 @@ function FullScreenInvoiceDialog(props) {
             <CircularProgress style={{margin: 'auto'}} />
             )}
             
-          </CardActions>
+          </div>
           
-        </Card>
+        </div>
       </form>
+      </div>
     </div>
   );
 }
