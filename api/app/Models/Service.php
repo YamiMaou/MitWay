@@ -10,6 +10,8 @@ class Service extends Model
 
     protected $fillable = [
         'type',
+        'name',
+        'description'
     ];
 
     public function driver()

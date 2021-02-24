@@ -17,6 +17,8 @@ class CreateServicesTable extends Migration
             $table->id();
 
             $table->string('type', 50); // aberto ou fechado
+            $table->string('name', 100); 
+            $table->string('description')->nullable();
 
             $table->timestamps();
         });
