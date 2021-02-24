@@ -19,7 +19,7 @@ class CreateDriversTable extends Migration
             $table->string('cnh', 100);
             $table->string('fullname', 100);
             $table->string('cpf_cnpj', 14);
-            $table->date('birthdate');
+            $table->date('birthdate', 15);
             $table->string('email', 100);
             $table->string('mob_phone', 11); // celular
             $table->string('phone', 11);

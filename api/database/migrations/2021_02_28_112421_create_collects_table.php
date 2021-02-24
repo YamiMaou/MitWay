@@ -17,7 +17,7 @@ class CreateCollectsTable extends Migration
             $table->id();
 
             $table->dateTime('hour');
-            $table->date('date');
+            $table->date('date', 15);
 
             $table->unsignedBigInteger('package_id')->nullable();
 

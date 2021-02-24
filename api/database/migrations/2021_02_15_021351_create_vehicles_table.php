@@ -23,7 +23,7 @@ class CreateVehiclesTable extends Migration
             $table->string('truckbody', 50); // tipo de carroceria
             $table->boolean('especial_package')->default(false); // tipo de carroceria
             $table->string('car_number'); // numero de placa
-            $table->date('car_year');
+            $table->string('car_year', 4); // tipo text?Acho que sim, input
 
             $table->unsignedBigInteger('driver_id')->nullable();
             $table->foreign('driver_id')->references('id')->on('drivers')->onDelete('cascade');
