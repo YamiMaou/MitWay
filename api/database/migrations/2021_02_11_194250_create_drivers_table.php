@@ -25,8 +25,12 @@ class CreateDriversTable extends Migration
             $table->string('phone', 11);
 
             $table->unsignedBigInteger('package_id')->nullable();
+            $table->unsignedBigInteger('address_id')->nullable();
+            //$table->unsignedBigInteger('qualification_id')->nullable();
 
             $table->foreign('package_id')->references('id')->on('packages')->onDelete('cascade');
+            //$table->foreign('address_id')->references('id')->on('addresses')->onDelete('cascade');
+            //$table->foreign('qualification_id')->references('id')->on('qualifications')->onDelete('cascade');
 
             $table->timestamps();
         });

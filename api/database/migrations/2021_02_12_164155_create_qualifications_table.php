@@ -19,8 +19,8 @@ class CreateQualificationsTable extends Migration
             $table->string('title', 100);
             $table->string('description', 100);
 
-            $table->unsignedBigInteger('driver_id')->nullable();;
-            $table->foreign('driver_id')->references('id')->on('drivers')->onDelete('cascade');
+            //$table->unsignedBigInteger('driver_id')->nullable();;
+            //$table->foreign('driver_id')->references('id')->on('drivers')->onDelete('cascade');
                         
             $table->timestamps();
         });

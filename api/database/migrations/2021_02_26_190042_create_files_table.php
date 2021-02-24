@@ -19,6 +19,12 @@ class CreateFilesTable extends Migration
             $table->string('name', 36);
             $table->string('path', 200);
 
+            $table->unsignedBigInteger('client_id')->nullable();
+            $table->unsignedBigInteger('driver_id')->nullable();
+
+            $table->foreign('client_id')->references('id')->on('clients')->onDelete('cascade');
+            $table->foreign('driver_id')->references('id')->on('drivers')->onDelete('cascade');
+
             $table->timestamps();
         });
     }
