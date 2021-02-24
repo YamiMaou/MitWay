@@ -59,12 +59,12 @@ export const postAuth = async (params = {}) => {
   }
 };
 /// list contributors
-export const getApiContributors = async (params = '',id = undefined) => {
+export const getApiDrivers = async (params = '',id = undefined) => {
   localStorage.setItem("sessionTime", 900)
   const data = Object.entries(params)
     .map(([key, val]) => `${key}=${encodeURIComponent(val)}`)
     .join('&');
-  return fetch(`${apiHost}/contributors/${id ?? ''}?${data}`, {
+  return fetch(`${apiHost}/drivers/${id ?? ''}?${data}`, {
     method: 'GET',
     data,
     mode: 'cors', // pode ser cors ou basic(default)
@@ -80,7 +80,7 @@ export const getApiContributors = async (params = '',id = undefined) => {
   });
 }
 /// create contributors
-export const postApiContributors = async (params = {}) => {
+export const postApiDrivers = async (params = {}) => {
   localStorage.setItem("sessionTime", 900)
   const data = new FormData();
   Object.entries(params)
@@ -98,7 +98,7 @@ export const postApiContributors = async (params = {}) => {
       'Authorization': 'Bearer ' + token
     },
     data,
-    url: apiHost + '/contributors',
+    url: apiHost + '/drivers',
   };
   try{
     const response = await axios(options);  // wrap in async function
@@ -110,7 +110,7 @@ export const postApiContributors = async (params = {}) => {
 }
 
 /// update contributors
-export const putApiContributors = async (id,params = {}) => {
+export const putApiDrivers = async (id,params = {}) => {
   localStorage.setItem("sessionTime", 900)
   params.justification = params.justification  ?? "Update";
   const data = new FormData();
@@ -130,7 +130,7 @@ export const putApiContributors = async (id,params = {}) => {
       'Authorization': 'Bearer ' + token
     },
     data,
-    url: apiHost +  `/contributors/${id}`,
+    url: apiHost +  `/drivers/${id}`,
   };
   try{
     const response = await axios(options);  // wrap in async function
