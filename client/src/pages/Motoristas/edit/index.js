@@ -55,16 +55,17 @@ class EditDrivers extends Component {
             if (response.data.success) {
                 this.props.setSnackbar({ open: true, message: response.data.message });
                 this.setState({ ...this.state, loading: false });
-                this.props.history.goBack();
+                //this.props.history.goBack();
             } else {
-                let {errors, message} = response.data.error.response.data
+                let errors = response.data ?? undefined;
                 let messages = '';
                 console.log(errors)
-                if(errors !== undefined ){
-                    Object.keys(errors).map(err => {
+                if(errors !== undefined && errors.data !== undefined && errors.data.response !== undefined  && errors.data.response.data.errors !== undefined){
+                    Object.keys(errors.response.data.errors).map(err => {
                         console.log(err);
-                        messages += `O campo ${err.toUpperCase()} : ${errors[err][0]} \r`;
-                    });
+                        let field = err == "file" ? "Anexo" : err
+                        messages += `O campo ${field.toUpperCase()} ${errors.response.data.errors[err][0]} \n`;
+                    })
                 } else{
                     messages = 'Houve um problema em sua requisição!'
                 }
@@ -129,10 +130,13 @@ class EditDrivers extends Component {
                     ], value: this.state.driver['cnh'],flexBasis },
                     { column: 'fullname', label: 'Nome', type: 'text', validate: {max: 50, required: true}, value: this.state.driver['fullname'], flexBasis },
                     { column: 'mob_phone', label: 'Celular', type: 'text', mask: InputPhone, validate: { max: 15, required: true }, value: this.state.driver['mob_phone'], flexBasis},
+                    { column: 'file_cnh', label: 'Anexar CNH', file: this.state.driver['file_cnh'] ? this.state.driver['files_cnh'].name : '', type: 'file', flexBasis:'15%', style:{maxWidth: '180'} },
                     { column: 'phone', label: 'Telefone', type: 'text', mask: InputPhone, validate: { max: 15, required: true }, value: this.state.driver['phone'], flexBasis},
                     { column: 'email', label: 'E-mail', type: 'email', validate: { max: 100 }, validateHandler: validaEmail, value: this.state.driver['email'], flexBasis},
                     { column: 'birthdate', label: 'Data de nascimento', type: 'date', validate: {required: true}, validateHandler: isFutureData, flexBasis, value: this.state.driver['birthdate'], style:{maxWidth: '210px'} },
                     //
+                    { column: 'file_crlv', label: 'Anexar CRLV', file: this.state.driver['file_crlv'] ? this.state.driver['files_crlv'].name : '', type: 'file', flexBasis:'15%', style:{maxWidth: '180'} },
+                    
                     //{ column: 'created_at', label: 'Data', type: 'date' },
                 ]
             },
@@ -145,7 +149,7 @@ class EditDrivers extends Component {
                     { column: 'zipcode', label: 'CEP', type: 'text', mask: InputCep, validate: { max: 9, required: true }, flexBasis: '9%', value: this.state.driver['addresses'].zipcode },
                     { column: 'street', label: 'Endereço', validate: { max: 100, required: true }, type: 'text', flexBasis, value: this.state.driver['addresses'].street },
                     { column: 'number', label: 'Número', type: 'number', validate: { number: true, required: true }, value: this.state.driver['addresses'].number, flexBasis: '9%'},
-                    { column: 'additional', label: 'Complemento', type: 'text', flexBasis, value: this.state.driver['addresses'].additional },
+                    { column: 'additional', label: 'Complemento', type: 'text', flexBasis:'10%', value: this.state.driver['addresses'].additional },
                     {
                         column: 'uf', label: 'Estado', type: 'select',
                         values: ["Acre", "Alagoas", "Amazonas", "Amapá", "Bahia", "Ceará", "Brasília", "Espírito Santo", "Goiás", "Maranhão", "Minas Gerais", "Mato Grosso do Sul", "Mato Grosso", "Pará", "Paraíba", "Pernambuco", "Piauí", "Paraná", "Rio de Janeiro", "Rio Grande do Norte", "Rondônia", "Roraima", "Rio Grande do Sul", "Santa Catarina", "Sergipe", "São Paulo", "Tocantins"],
@@ -160,7 +164,7 @@ class EditDrivers extends Component {
             <Fragment>
                 <AppBar position="static" style={{ padding: 10, marginTop: 10, marginBottom: 10 }}>
                     <Typography variant="h6">
-                        <HomeIcon />  <span>Editar / Colaboradores</span>
+                        <HomeIcon />  <span>Editar / Motoristas</span>
                     </Typography>
                 </AppBar>
                 {
@@ -170,7 +174,7 @@ class EditDrivers extends Component {
                         loading={this.state.loading}
                     />
                 }
-                { this.state.driver !== undefined &&
+                { this.state.driver === "maou" &&
                     <Paper style={{ marginTop: 10, marginBottom: 10, padding: 15, height: window.innerWidth < 768 ? 210 : 90 }}>
                         <div style={{ float: 'left', maxWidth: 350 }}>
                             <Typography variant="subtitle1" style={{ padding: 10 }}>

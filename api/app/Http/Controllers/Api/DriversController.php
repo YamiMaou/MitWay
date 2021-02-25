@@ -16,11 +16,16 @@ class DriversController extends ControllersExtends
 
     public function show(Req $request, $id, $with=[])
     {
-       return  parent::show($request, $id, ['user', 'addresses']);
+       return  parent::show($request, $id, ['user', 'addresses', 'files_cnh']) ?? [];
     }
 
     public function update(Req $request, $id)
     {
+        $validate = $request;
+        
+        $files = new \App\Http\Controllers\FilesController();
+        $files = $files->multUpload($request, 'driver');
+        $data = $files->request;
         try {
             $drivers = [
                 "cpf_cnpj" => $request->cpf_cnpj,
@@ -29,8 +34,14 @@ class DriversController extends ControllersExtends
                 "mob_phone"=>$request->mob_phone,
                 "phone" => $request->phone,
                 "email" => $request->email,
-                "cnh" => $request->cnh
+                "cnh" => $request->cnh,
             ];
+            if(isset($request->file_cnh)){
+                $drivers["file_cnh"] = $data["file_cnh"];
+            }
+            if(isset($request->file_cnh)){
+                $drivers["file_crlv"] = $data["file_crlv"];
+            }
             $address = [
                 "uf" => $request->uf,
                 "number" => $request->number,
@@ -45,14 +56,20 @@ class DriversController extends ControllersExtends
             ],
             ["permiss" => true, "key" => "driver_id"]);
 
-            return parent::update($request, $id);
+            return parent::update($validate, $id);
         } catch (\Exception $error) {
-            return response()->json(["success"=> false, "type" => "error", "message" => "Problema ao Atualizar. ", "error" => $error->getMessage()], 201);
+            return response()->json(["success"=> false, "type" => "error", "message" => "Problema ao Atualizar. ", "error" => $error->getTraceAsString()], 201);
         }
     }   
 
     public function store(Req $request){
-        try{
+        $validate = $request;
+        $files = new \App\Http\Controllers\FilesController();
+        $files = $files->multUpload($request, 'drivers');
+        $data = $files->request;
+       
+        try {
+           
             $users = [
                 "name" => $request->fullname,
                 "email" => $request->email,
@@ -68,6 +85,8 @@ class DriversController extends ControllersExtends
                 "phone" => $request->phone,
                 "email" => $request->email,
                 "cnh" => $request->cnh,
+                "file_cnh" => $data["file_cnh"],
+                "file_crlv" => $data["file_crlv"],
                 'user_id' => $user->id
             ];
             $address = [
@@ -84,7 +103,7 @@ class DriversController extends ControllersExtends
                 \App\Models\Addresses::class => $address
             ],
             ["permiss" => true, "key" => "driver_id"]);
-            return parent::store($request);
+            return parent::store($validate);
         } catch (\Exception $error) {
             return response()->json(["success"=> false, "type" => "error", "message" => "Problema ao Cadastrar. ", "error" => $error->getMessage()], 201);
         }

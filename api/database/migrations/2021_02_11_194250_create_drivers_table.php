@@ -21,8 +21,15 @@ class CreateDriversTable extends Migration
             $table->string('cpf_cnpj', 14);
             $table->date('birthdate', 15);
             $table->string('email', 100);
-            $table->string('mob_phone', 11); // celular
-            $table->string('phone', 11);
+            $table->string('mob_phone', 15); // celular
+            $table->string('phone', 15);
+
+
+            $table->unsignedBigInteger('file_cnh')->nullable();
+            $table->unsignedBigInteger('file_crlv')->nullable();
+
+            $table->foreign('file_cnh')->references('id')->on('files')->onDelete('cascade');
+            $table->foreign('file_crlv')->references('id')->on('files')->onDelete('cascade');
 
             //$table->unsignedBigInteger('package_id')->nullable();
             //$table->unsignedBigInteger('address_id')->nullable();

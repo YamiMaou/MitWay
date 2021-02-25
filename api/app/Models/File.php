@@ -12,8 +12,6 @@ class File extends Model
         'title',
         'name',
         'path',
-        'client_id',
-        'driver_id',
     ];
 
     public function client()

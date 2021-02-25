@@ -54,14 +54,14 @@ class CreateDrivers extends Component {
                 //this.props.enqueueSnackbar( response.data.message, { variant: 'success' });
                 this.props.setSnackbar({ open: true, message: response.data.message });
                 this.setState({ ...this.state, loading: false });
-                this.props.history.goBack();
+                //this.props.history.goBack();
             } else {
                 console.log(response)
-                let errors = response.data.error ?? undefined;
+                let errors = response.data ?? undefined;
 
                 //let { errors } = response.data.error.response.data ?? {error: undefined}
                 let messages = '';
-                if(errors !== undefined && errors.response !== undefined  && errors.response.data.errors !== undefined){
+                if(errors !== undefined && errors.data !== undefined && errors.data.response !== undefined  && errors.data.response.data.errors !== undefined){
                     Object.keys(errors.response.data.errors).map(err => {
                         console.log(err);
                         let field = err == "file" ? "Anexo" : err
@@ -130,10 +130,14 @@ class CreateDrivers extends Component {
                     ],flexBasis },
                     { column: 'fullname', label: 'Nome', type: 'text', validate: {max: 50, required: true}, flexBasis },
                     { column: 'mob_phone', label: 'Celular', type: 'text', mask: InputPhone, validate: { max: 15, required: true }, flexBasis},
+                    { column: 'file_cnh', label: 'Anexar CNH', type: 'file', flexBasis, style:{maxWidth: '180'} },
                     { column: 'phone', label: 'Telefone', type: 'text', mask: InputPhone, validate: { max: 15, required: true }, flexBasis},
                     { column: 'email', label: 'E-mail', type: 'email', validate: { max: 100 }, validateHandler: validaEmail, flexBasis},
                     { column: 'birthdate', label: 'Data de nascimento', type: 'date', validate: {required: true}, validateHandler: isFutureData, flexBasis, style:{maxWidth: '210px'} },
                     //
+                    
+                    { column: 'file_crlv', label: 'Anexar CRLV', type: 'file', flexBasis, style:{maxWidth: '180'} },
+                    
                     //{ column: 'created_at', label: 'Data', type: 'date' },
                 ]
             },
@@ -146,7 +150,7 @@ class CreateDrivers extends Component {
                     { column: 'zipcode', label: 'CEP', type: 'text', mask: InputCep, validate: { max: 9, required: true }, flexBasis: '9%'},
                     { column: 'street', label: 'Endereço', validate: { max: 100, required: true }, type: 'text', flexBasis},
                     { column: 'number', label: 'Número', type: 'number', validate: { number: true, required: true }, flexBasis: '9%'},
-                    { column: 'additional', label: 'Complemento', type: 'text', flexBasis},
+                    { column: 'additional', label: 'Complemento', type: 'text', flexBasis: '10%'},
                     {
                         column: 'uf', label: 'Estado', type: 'select',
                         values: ["Acre", "Alagoas", "Amazonas", "Amapá", "Bahia", "Ceará", "Brasília", "Espírito Santo", "Goiás", "Maranhão", "Minas Gerais", "Mato Grosso do Sul", "Mato Grosso", "Pará", "Paraíba", "Pernambuco", "Piauí", "Paraná", "Rio de Janeiro", "Rio Grande do Norte", "Rondônia", "Roraima", "Rio Grande do Sul", "Santa Catarina", "Sergipe", "São Paulo", "Tocantins"],

@@ -2,7 +2,7 @@
 
 use Illuminate\Database\Seeder;
 
-class ClientSeeder extends Seeder
+class ClientDriverSeeder extends Seeder
 {
     /**
      * Run the database seeds.

@@ -19,7 +19,9 @@ class Driver extends Model
         'phone',
         'address_id',
         'service_id',
-        'user_id'
+        'user_id',
+        'file_crlv',
+        'file_cnh'
     ];
 
     public function qualifications()
@@ -32,9 +34,14 @@ class Driver extends Model
         return $this->hasMany(Client::class, 'client_drivers', 'driver_id' ,'client_id');
     }
 
-    public function files()
+    public function files_cnh()
     {
-        return $this->hasMany(File::class);
+        return $this->hasOne(File::class, 'id', 'file_cnh');
+    }
+
+    public function files_crlv()
+    {
+        return $this->hasOne(File::class, 'id', 'file_crlv');
     }
 
     public function vehicle()

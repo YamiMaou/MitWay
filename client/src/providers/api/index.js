@@ -40,7 +40,7 @@ function lower(obj) {
 /// Auth API Methods
 
 export const postAuth = async (params = {}) => {
-  localStorage.setItem("sessionTime", 900)
+  
   const data = Object.entries(params)
     .map(([key, val]) => `${key}=${encodeURIComponent(val)}`)
     .join('&');
@@ -60,7 +60,7 @@ export const postAuth = async (params = {}) => {
 };
 /// list contributors
 export const getApiDrivers = async (params = '',id = undefined) => {
-  localStorage.setItem("sessionTime", 900)
+  
   const data = Object.entries(params)
     .map(([key, val]) => `${key}=${encodeURIComponent(val)}`)
     .join('&');
@@ -81,7 +81,7 @@ export const getApiDrivers = async (params = '',id = undefined) => {
 }
 /// create contributors
 export const postApiDrivers = async (params = {}) => {
-  localStorage.setItem("sessionTime", 900)
+  
   const data = new FormData();
   Object.entries(params)
     .map(([key, val]) => {
@@ -111,8 +111,7 @@ export const postApiDrivers = async (params = {}) => {
 
 /// update contributors
 export const putApiDrivers = async (id,params = {}) => {
-  localStorage.setItem("sessionTime", 900)
-  params.justification = params.justification  ?? "Update";
+  //params.justification = params.justification  ?? "Update";
   const data = new FormData();
   data.append("_method", "put");
   Object.entries(params)
@@ -140,12 +139,96 @@ export const putApiDrivers = async (id,params = {}) => {
     return { data: { success: false, error, message: "problema ao se conectar com o servidor!" } }
   }
 }
+
+// Clients
+
+/// list Clients
+export const getApiClients = async (params = '',id = undefined) => {
+  
+  const data = Object.entries(params)
+    .map(([key, val]) => `${key}=${encodeURIComponent(val)}`)
+    .join('&');
+  return fetch(`${apiHost}/clients/${id ?? ''}?${data}`, {
+    method: 'GET',
+    data,
+    mode: 'cors', // pode ser cors ou basic(default)
+    headers: new Headers({
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer ' + token
+    }),
+  }).then((response) => {
+    return response.json();
+  }).catch((error) => {
+    console.log('Whoops! Houve um erro.', error.message || error)
+    return { data: { success: false, message: "problema ao se conectar com o servidor!" } }
+  });
+}
+/// create Clients
+export const postApiClients = async (params = {}) => {
+  
+  const data = new FormData();
+  Object.entries(params)
+    .map(([key, val]) => {
+      data.append(key, val);
+    });
+    
+  const options = {
+    method: 'POST',
+    //mode: 'cors', // pode ser cors ou basic(default)
+    headers: {
+      'Content-Type': 'multipart/form-data',
+      'Authorization': 'Bearer ' + token
+    },
+    data,
+    url: apiHost + '/clients',
+  };
+  try{
+    const response = await axios(options);  // wrap in async function
+    return response;
+  } catch (error) {
+    console.log('Whoops! Houve um erro.', error.message || error)
+    return { data: { success: false, error ,message: "problema ao se conectar com o servidor!" } }
+  }
+}
+
+/// update Clients
+export const putApiClients = async (id,params = {}) => {
+  //params.justification = params.justification  ?? "Update";
+  const data = new FormData();
+  data.append("_method", "put");
+  Object.entries(params)
+    .map(([key, val]) => {
+      data.append(key, val);
+    });
+    
+  const options = {
+    method: 'POST',
+    //mode: 'cors', // pode ser cors ou basic(default)
+    headers: {
+      'Content-Type': 'multipart/form-data',
+      'Authorization': 'Bearer ' + token
+    },
+    data,
+    url: apiHost +  `/clients/${id}`,
+  };
+  try{
+    const response = await axios(options);  // wrap in async function
+    return response;
+  } catch (error) {
+    console.log('Whoops! Houve um erro.', error.message || error)
+    return { data: { success: false, error, message: "problema ao se conectar com o servidor!" } }
+  }
+}
+
+
+
+//
 //Download Document
 export const getApiDownloadFile = async (params = '') => {
-  localStorage.setItem("sessionTime", 900)
+  
   axios({
     method: 'post',
-    url: `${apiHost}/contributors/downloads?file_name=${params}`,
+    url: `${apiHost}/downloads?file_name=${params}`,
     responseType: 'arraybuffer',
     //data: dates
   }).then(function(response) {
@@ -164,7 +247,7 @@ export const getApiDownloadFile = async (params = '') => {
 
 // get address ViaCep
 export const getAddressByCepla = async (params = '') => {
-  localStorage.setItem("sessionTime", 900)
+  
   if (params.length >= 8) {
     const data = Object.entries(params)
       .map(([key, val]) => `${key}=${encodeURIComponent(val)}`)

@@ -9,9 +9,6 @@ import { makeStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import TextField from '@material-ui/core/TextField';
-import Card from '@material-ui/core/Card';
-import CardActions from '@material-ui/core/CardActions';
-import CardContent from '@material-ui/core/CardContent';
 import Slide from '@material-ui/core/Slide';
 
 import logo from '../../../assets/logo.png'
@@ -21,8 +18,25 @@ import { Typography } from '@material-ui/core';
 import Paper from '@material-ui/core/Paper';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
+import InputAdornment from '@material-ui/core/InputAdornment';
+import PersonOutlinedIcon from '@material-ui/icons/PersonOutlined';
+import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 
 const useStyles = makeStyles((theme) => ({
+  dots: {
+      width: 16, 
+      height: 16, background: 'white', 
+      borderRadius:  '50%', 
+     // border: '1px solid #ccc',
+      margin: 5,
+  },
+  TextField:{
+    [`& fieldset`]: {
+      border: "1px solid #132e79",
+      borderLeft: "5px solid #132e79",
+      borderRadius: 0,
+    },
+  },
   root: {
     maxWidth: 350,
     display: 'flex',
@@ -58,7 +72,7 @@ function FullScreenInvoiceDialog(props) {
 
   const { aDialog } = props;
 
-  const [value, setValue] = React.useState(2);
+  const [value, setValue] = React.useState(0);
 
   const handleChange = (event, newValue) => {
     console.log(newValue);
@@ -103,7 +117,12 @@ function FullScreenInvoiceDialog(props) {
         background: '#132e79',
         height: window.innerHeight
       }}>
-      
+      <div style={{marginRight: 35, marginTop: 65, display: 'flex', justifyContent:'flex-end', flexDirection: 'row'}}>
+        <span className={classes.dots} style={{background: '#0065b6' ,width: 64, borderRadius: 30}}></span>
+        <span className={classes.dots}></span>
+        <span className={classes.dots}></span>
+        <span className={classes.dots}></span>
+      </div>
       </div>
       <div style={{
         display: 'flex',
@@ -123,16 +142,16 @@ function FullScreenInvoiceDialog(props) {
           </Typography>
         </div>
         <div className={classes.root} style={{marginLeft: 15}}>
-        <Paper square>
+        <Paper square style={{width: 320, marginBottom: 10}}>
           <Tabs
             value={value}
             indicatorColor="primary"
-            textColor="primary"
+            //textColor="primary"
             onChange={handleChange}
             aria-label="Login"
           >
-              <Tab style={{background: value == 0 ?'blue': 'white'}} label="Motorista" />
-              <Tab style={{background: value == 1 ?'blue': 'white'}} label="Empresa" />
+              <Tab style={{background: value == 0 ?'#132e79': '#ccc', color: value == 1 ?'#132e79': 'white'}} label="Empresa" />
+              <Tab style={{background: value == 1 ?'#132e79': '#ccc', color: value == 0 ?'#132e79': 'white'}} label="Profissional" />
           </Tabs>
           </Paper>
             <div>
@@ -146,21 +165,38 @@ function FullScreenInvoiceDialog(props) {
                 }
               </InputMask> */}
               <TextField
+                className={classes.TextField}
                 error={loginError === true ? true : false}
                 helperText={ loginError ? "E-mail ou senha inválidos." : ""}
                 type="text"
                 fullWidth id="email" type="text" label="E-Mail" variant="outlined" 
                 onChange={onChange}
-                onBlur={onChange} />
+                onBlur={onChange}
+                InputProps={{
+                  startAdornment: (
+                    <InputAdornment position="start">
+                      <PersonOutlinedIcon color="#cccccc" />
+                    </InputAdornment>
+                  ),
+                }}
+                 />
               </div><br />
               <div>
               <TextField
+                className={classes.TextField}
                 error={loginError === true ? true : false}
                 //helperText={ loginError ? "E-mail ou senha inválidos." : ""}
                 type="text"
                 fullWidth id="password" type="password" label="Senha" variant="outlined" 
                 onChange={onChange}
-                onBlur={onChange} />
+                onBlur={onChange} 
+                InputProps={{
+                  startAdornment: (
+                    <InputAdornment position="start">
+                      <LockOutlinedIcon color="#cccccc" />
+                    </InputAdornment>
+                  ),
+                }}/>
               </div>
             </div>
             

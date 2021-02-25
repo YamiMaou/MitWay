@@ -34,11 +34,15 @@ Route::get('/profile', 'Api\UsersController@details')
     ->middleware(['auth:api', 'scope:view-posts']);
 Route::put('/posts/{id}', 'Api\PostsController@update')
     ->middleware(['auth:api', 'scope:update-posts']);*/
+Route::post('downloads', function(Request $request){
+    $files = new \App\Http\Controllers\FilesController();
+    return $files->download($request);
+});
 Route::group(["middleware" => ['auth:api', 'scope:view-profile']], function(){
-    // POSTS
-    Route::resource('/posts', 'Api\PostsController');
-    // COLABORATORS
+    // DRIVERS
     Route::resource('/drivers', 'Api\DriversController');
+    // DRIVERS
+    Route::resource('/clients', 'Api\ClientsController');
     // PROVIDERS
     Route::resource('/providers', 'Api\ProvidersController@')->middleware(['auth:api', 'scope:view-posts']);
     // CONTRACT

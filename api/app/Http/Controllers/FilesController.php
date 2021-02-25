@@ -33,7 +33,7 @@ class FilesController extends Controller
     }
 
     /** model e id do model */
-    static public function upload(Request $request, $model, $id)
+    public function upload(Request $request, $model, $id)
     {
         $function = new \ReflectionClass($model);
         $modelName = $function->getShortName();
@@ -48,13 +48,13 @@ class FilesController extends Controller
             $path = $request->file("file")->storeAs("uploads", $fileName);
         
             $foreign  = strtolower($modelName).'_id';
-            $model = $this->pathClass.$model;
-
+                
             if ($model::find($id)->first()):
                 $request[$foreign] = $id;
                 $request['path'] = $path;
                 $request['name'] = $fileName;
-
+                print_r($request);
+                //$request['file'] = $request['anexo'];
                 $this->file->create($request->all());
             endif;
     
@@ -71,18 +71,18 @@ class FilesController extends Controller
             foreach ($request->all() as $k => $v) {
                 $lrequest[$k] = $v;
                 if ($request->hasFile($k)) {
-                    $fileName = time() . '.' . $request->file($k)->extension();
+                    $fileName = time().'-'.rand(1000,9999) . '.' . $request->file($k)->extension();
 
                     $path = $request->file($k)->storeAs("uploads", $fileName);
 
-                    $foreign  = isset($model) ?? strtolower($model) . '_id';
+                    //$foreign  = isset($model) ?? strtolower($model) . '_id';
                     $model = $this->pathClass . $model;
-                        $request[$foreign] = $id;
+                        //$request[$foreign] = $id;
                         $request['path'] = $path;
                         $request['name'] = $fileName;
                         $create = $this->file->create($request->all());
                         $lrequest[$k] = $create->id;
-                        unset($request[$foreign]);
+                        //unset($request[$foreign]);
                         unset($request['path']);
                         unset($request['name']);
                     continue;

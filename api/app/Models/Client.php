@@ -16,11 +16,13 @@ class Client extends Model
         'email',
         'mob_phone',
         'phone',
+        'user_id',
+        'file_cnh'
     ];
 
-    public function files()
+    public function files_cnh()
     {
-        return $this->hasMany(File::class);
+        return $this->hasOne(File::class, 'id', 'file_cnh');
     }
 
     public function packages()
@@ -31,6 +33,11 @@ class Client extends Model
     public function drivers()
     {
         return $this->hasMany(Driver::class, 'client_drivers', 'client_id', 'driver_id');
+    }
+
+    public function addresses()
+    {
+        return $this->hasOne(Addresses::class,'client_id', 'id');
     }
 
     public function user()

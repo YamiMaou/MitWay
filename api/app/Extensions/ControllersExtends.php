@@ -101,16 +101,14 @@ abstract class ControllersExtends extends Controller implements ControllersInter
         }
 
         try {
-            $modelName = str_replace('Controller','',(new \ReflectionClass($this))->getShortName());
-            $files = new FilesController();
-            $files = $files->multUpload($request, $modelName);
-            $data = $files->request;
-            $data['user_id'] = $request->user()->id;
-            $data['username'] = $request->user()->email;
-            
-            unset($data["_token"]);
-            unset($data["_method"]);
             if (count($this->with) > 0) {
+                $data = $request->all();
+                //$data['user_id'] = $request->user()->id;
+                //$data['username'] = $request->user()->email;
+                
+                unset($data["_token"]);
+                unset($data["_method"]);
+                
                 $i = 0;
                 $primary = null;
                 foreach ($this->with["data"] as $model => $fields) {
@@ -124,7 +122,16 @@ abstract class ControllersExtends extends Controller implements ControllersInter
                     $model::create($fields);
                 }
             } else {
-                $obj = $this->model::create($data);
+                $modelName = str_replace('Controller','',(new \ReflectionClass($this))->getShortName());
+                $files = new FilesController();
+                $files = $files->multUpload($request, $modelName);
+                $data = $files->request;
+                //$data['user_id'] = $request->user()->id;
+                //$data['username'] = $request->user()->email;
+                
+                unset($data["_token"]);
+                unset($data["_method"]);
+                $this->model::create($data);
                 //FilesController::upload($request, $this->model, $obj->id);
             }
             return response()->json(["success"=> true, "type" => "store", "message" => "Cadastrado com Sucesso!"]);
@@ -151,23 +158,30 @@ abstract class ControllersExtends extends Controller implements ControllersInter
             $request->validate($this->validate);
         }
         try {
-            $files = new FilesController();
-            $files = $files->multUpload($request, $modelName, $id);
-            $data = $files->request;
-            $data['user_id'] = $request->user()->id;
-            //$this->saveLog($id, $request);
-            
-            unset($data["_token"]);
-            unset($data["_method"]);
-            unset($data["justification"]);
-            
             if (count($this->with) > 0) {
+                $data = $request->all();
+                //$data['user_id'] = $request->user()->id;
+                //$this->saveLog($id, $request);
+                
+                unset($data["_token"]);
+                unset($data["_method"]);
+                unset($data["justification"]);
                 $i = 0;
                 foreach ($this->with["data"] as $model => $fields) {
                     $model::where($i == 0 ? 'id' : $this->with["changes"]->key, $id)->update($fields);
                     $i++;
                 }
             } else {
+                $files = new FilesController();
+                $files = $files->multUpload($request, $modelName, $id);
+                $data = $files->request;
+                $data['user_id'] = $request->user()->id;
+                //$this->saveLog($id, $request);
+                
+                unset($data["_token"]);
+                unset($data["_method"]);
+                unset($data["justification"]);
+                
                 $this->model::where('id', $id)->update($data);
             }
            
