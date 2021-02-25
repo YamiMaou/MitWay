@@ -36,7 +36,7 @@ class ResetPassword extends Mailable
         $this->to($this->user->email);
 
         // rota de reset
-        return $this->view('https://www.mitway.com/recovery', [
+        return $this->view('teste', [
             "user" => $this->user,
             "link" => $this->link,
         ]);

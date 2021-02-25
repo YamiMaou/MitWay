@@ -31,4 +31,8 @@ Route::get( '/recovery', function(){
     return view( 'password_recovery' );
 } );
 
+Route::get( '/teste', function(){
+    return view( 'teste' )->name('teste');
+} );
+
 Route::post('recovery', "Api\AccountController@checkEmail");
