@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateCollectsTable extends Migration
+class CreateUsersTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,16 +13,13 @@ class CreateCollectsTable extends Migration
      */
     public function up()
     {
-        Schema::create('collects', function (Blueprint $table) {
+        Schema::create('users', function (Blueprint $table) {
             $table->id();
-
-            $table->time('hour');
-            $table->date('date', 15);
-
-            $table->unsignedBigInteger('package_id')->nullable();
-
-            $table->foreign('package_id')->references('id')->on('packages')->onDelete('cascade');
-
+            $table->string('name');
+            $table->string('email')->unique();
+            $table->timestamp('email_verified_at')->nullable();
+            $table->string('password');
+            $table->rememberToken();
             $table->timestamps();
         });
     }
@@ -34,6 +31,6 @@ class CreateCollectsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('collects');
+        Schema::dropIfExists('users');
     }
 }

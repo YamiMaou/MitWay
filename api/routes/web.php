@@ -15,9 +15,9 @@ use Illuminate\Support\Facades\Route;
 */
 //Auth::routes();
 
-Route::get( '/{path?}', function(){
+/**Route::get( '/{path?}', function(){
     return view( 'react.index' );
-} )->where('path', '.*');
+} )->where('path', '.*');*/
 
 Auth::routes();
 /*
@@ -26,3 +26,13 @@ Route::resource('/', 'HomeController');
 Route::resource('posts', 'PostsController');
 
 Route::resource('developers', 'DevelopersController');*/
+
+Route::get( '/recovery', function(){
+    return view( 'password_recovery' );
+} );
+
+Route::get( '/teste', function(){
+    return view( 'teste' )->name('teste');
+} );
+
+Route::post('recovery', "Api\AccountController@checkEmail");

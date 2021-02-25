@@ -16,8 +16,8 @@ class CreateTypeloadsTable extends Migration
         Schema::create('typeloads', function (Blueprint $table) {
             $table->id();
 
-            $table->text('type', 50);
-            $table->decimal('code', 50)->nullable();
+            $table->string('type', 50);
+            $table->string('code', 50)->nullable();
             $table->text('description', 50)->nullable();
 
             $table->timestamps();

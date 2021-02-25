@@ -2,6 +2,7 @@
 
 /** @var \Illuminate\Database\Eloquent\Factory $factory */
 
+use App\Models\Driver;
 use App\Models\Service;
 use Faker\Generator as Faker;
 
@@ -14,8 +15,6 @@ $factory->define(Driver::class, function (Faker $faker) {
             'email' => $faker->email,
             'mob_phone' => $faker->phoneNumber,
             'phone' => $faker->phoneNumber,
-            'fractionated' => $faker->word,
-            'note' => $faker->text,
             'service_id' => function () {
                 return factory(Service::class)->create()->id;
             }
