@@ -21,6 +21,7 @@ import HomeIcon from '@material-ui/icons/Home';
 import PersonIcon from '@material-ui/icons/Person';
 import { Link } from 'react-router-dom';
 import { styles } from './style';
+import { AddCircleOutlineRounded, AddIcCallOutlined, CardTravelOutlined, LocalShippingOutlined } from '@material-ui/icons';
 const drawerWidth = 240;
 
 const useStyles = makeStyles((theme) => ({
@@ -160,12 +161,32 @@ export default function MiniDrawer(props) {
               <ListItemText style={{color:"#fff"}} primary={"Home"} />
             </ListItem>
           </Link>
+
+          <ListItem button key={"Cadastrar Carga"}>
+              <ListItemIcon><AddCircleOutlineRounded style={{color:"#fff"}} /></ListItemIcon>
+              <ListItemText style={{color:"#fff"}} primary={"Cadastrar Carga"} />
+          </ListItem>
+
+          <Link style={styles.link} to="/novo" >
+          <ListItem button key={"Catastro"}>
+              <ListItemIcon><PersonIcon style={{color:"#fff"}} /></ListItemIcon>
+              <ListItemText style={{color:"#fff"}} primary={"Cadastro"} />
+            </ListItem>
+          </Link>
+
           <Link style={styles.link} to="/motoristas" >
           <ListItem button key={"Motoristas"}>
-              <ListItemIcon><PersonIcon style={{color:"#fff"}} /></ListItemIcon>
+              <ListItemIcon><LocalShippingOutlined style={{color:"#fff"}} /></ListItemIcon>
               <ListItemText style={{color:"#fff"}} primary={"Motoristas"} />
             </ListItem>
           </Link>
+          <Link style={styles.link} to="/empresas" >
+          <ListItem button key={"Empresas"}>
+              <ListItemIcon><CardTravelOutlined style={{color:"#fff"}} /></ListItemIcon>
+              <ListItemText style={{color:"#fff"}} primary={"Empresas"} />
+            </ListItem>
+          </Link>
+          
         </List>
         { /*<Divider />
         <List>

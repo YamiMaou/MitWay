@@ -17,7 +17,7 @@ class ClientsController extends ControllersExtends
 
     public function show(Req $request, $id, $with=[])
     {
-       return  parent::show($request, $id, ['user', 'addresses', 'files_cnh', 'files_crlv']) ?? [];
+       return  parent::show($request, $id, ['user', 'addresses', 'files_cnh']) ?? [];
     }
 
     public function update(Req $request, $id)
@@ -72,20 +72,19 @@ class ClientsController extends ControllersExtends
         try {
            
             $users = [
-                "name" => $request->fullname,
+                "name" => $request->fantasy_name,
                 "email" => $request->email,
                 "password" => Hash::make($request->cpf_cnpj),
             ];
             $user = \App\User::create($users);
 
             $client = [
-                "cpf_cnpj" => $request->cpf_cnpj,
-                "fullname" => $request->fullname,
-                "birthdate"=> $request->birthdate,
+                "cnpj_cpf" => $request->cpf_cnpj,
+                "company_name" => $request->company_name,
                 "mob_phone"=>$request->mob_phone,
                 "phone" => $request->phone,
                 "email" => $request->email,
-                "cnh" => $request->cnh,
+                "fantasy_name" => $request->fantasy_name,
                 "file_cnh" => $data["file_cnh"],
                 'user_id' => $user->id
             ];

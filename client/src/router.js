@@ -11,9 +11,15 @@ import MiniDrawer from './components/Layout/Sidebar/minidrawer'
 
 import Home from './pages/Home';
 import Login from './pages/Login';
+
 import Drivers from './pages/Motoristas';
 import CreateDrivers from './pages/Motoristas/create';
 import EditDrivers from './pages/Motoristas/edit';
+
+import Clients from './pages/Empresas';
+import CreateClients from './pages/Empresas/create/cadastro';
+import EditClients from './pages/Empresas/edit';
+
 import LauncherDialog from './components/Loading/LauncherLoading'
 import Header from './components/Layout/Header'
 import {themeStyle} from './components/Layout/Header/style'
@@ -70,6 +76,10 @@ const AppRouter = (props) => {
               <Route path="/motoristas" exact={true} render={() => (isAuth ?  <Drivers /> : <Redirect push to="/login" />)} />
               <Route path="/motoristas/novo" exact={true} render={() => (isAuth ?  <CreateDrivers /> : <Redirect push to="/login" />)} />
               <Route path="/motoristas/:id" exact={true} render={() => (isAuth ?  <EditDrivers /> : <Redirect push to="/login" />)} />
+              
+              <Route path="/empresas" exact={true} render={() => (isAuth ?  <Clients /> : <Redirect push to="/login" />)} />
+              <Route path="/novo" exact={true} render={() => (isAuth ?  <CreateClients /> : <Redirect push to="/login" />)} />
+              <Route path="/empresas/:id" exact={true} render={() => (isAuth ?  <EditClients /> : <Redirect push to="/login" />)} />
               <Route path="*">
                 <Box>
                   <View> Pagina não encontrada.</View>

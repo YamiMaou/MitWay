@@ -1,8 +1,8 @@
 {
   "display": "standalone",
   "lang": "en",
-  "name": "Farmácia Fácil",
-  "short_name": "Farmácia Fácil",
+  "name": "MitWay",
+  "short_name": "MitWay",
   "start_url": "/?utm_source=web_app_manifest",
   "related_applications": [
     {

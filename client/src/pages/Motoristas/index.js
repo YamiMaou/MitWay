@@ -144,16 +144,9 @@ class Drivers extends Component {
                 <AppBar position="static" style={{ padding: 10, marginTop: 10, marginBottom: 10}}>
                     <Toolbar>
                         <Typography variant="h6" style={{flexGrow: 1}}>
-                            <HomeIcon />  <span>Cadastro / Motoristas</span>
+                            <HomeIcon />  <span>Motoristas</span>
                         </Typography>
-                        <Link to="motoristas/novo" style={{textDecoration: 'none'}} >
-                        <Button variant="contained" size="small" fullWidth color="primary"
-                            style={{
-                            background: 'linear-gradient(45deg, #025ea2 30%, #0086e8 90%)',
-                            }}>
-                                Novo <Add style={{color: 'white'}} fontSize="small"/>
-                            </Button>
-                        </Link>
+                        
                         
                     </Toolbar>
                     

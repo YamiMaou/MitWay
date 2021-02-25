@@ -8,7 +8,7 @@ if (!process.env.NODE_ENV || process.env.NODE_ENV === 'development') {
 } else {
   apiHost = hostname;
 }
-//apiHost = hostname;
+apiHost = hostname;
 let token = localStorage.getItem("token");
 export const Api = () => {
   return axios.create({
@@ -259,7 +259,7 @@ export const getAddressByCepla = async (params = '') => {
       url: `http://cep.la/${params}`,
     };
     const response = await axios(options);  // wrap in async function
-    console.log(response.data);
+    //console.log(response.data);
     return response;
   }
 }

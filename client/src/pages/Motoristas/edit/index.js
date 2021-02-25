@@ -55,7 +55,7 @@ class EditDrivers extends Component {
             if (response.data.success) {
                 this.props.setSnackbar({ open: true, message: response.data.message });
                 this.setState({ ...this.state, loading: false });
-                //this.props.history.goBack();
+                this.props.history.goBack();
             } else {
                 let errors = response.data ?? undefined;
                 let messages = '';
@@ -130,12 +130,12 @@ class EditDrivers extends Component {
                     ], value: this.state.driver['cnh'],flexBasis },
                     { column: 'fullname', label: 'Nome', type: 'text', validate: {max: 50, required: true}, value: this.state.driver['fullname'], flexBasis },
                     { column: 'mob_phone', label: 'Celular', type: 'text', mask: InputPhone, validate: { max: 15, required: true }, value: this.state.driver['mob_phone'], flexBasis},
-                    { column: 'file_cnh', label: 'Anexar CNH', file: this.state.driver['file_cnh'] ? this.state.driver['files_cnh'].name : '', type: 'file', flexBasis:'15%', style:{maxWidth: '180'} },
+                    { column: 'file_cnh', label: 'Anexar CNH', file: this.state.driver['files_cnh'] ? this.state.driver['files_cnh'].name : '', type: 'file', flexBasis:'15%', style:{maxWidth: '180'} },
                     { column: 'phone', label: 'Telefone', type: 'text', mask: InputPhone, validate: { max: 15, required: true }, value: this.state.driver['phone'], flexBasis},
                     { column: 'email', label: 'E-mail', type: 'email', validate: { max: 100 }, validateHandler: validaEmail, value: this.state.driver['email'], flexBasis},
                     { column: 'birthdate', label: 'Data de nascimento', type: 'date', validate: {required: true}, validateHandler: isFutureData, flexBasis, value: this.state.driver['birthdate'], style:{maxWidth: '210px'} },
                     //
-                    { column: 'file_crlv', label: 'Anexar CRLV', file: this.state.driver['file_crlv'] ? this.state.driver['files_crlv'].name : '', type: 'file', flexBasis:'15%', style:{maxWidth: '180'} },
+                    { column: 'file_crlv', label: 'Anexar CRLV', file: this.state.driver['files_crlv'] ? this.state.driver['files_crlv'].name : '', type: 'file', flexBasis:'15%', style:{maxWidth: '180'} },
                     
                     //{ column: 'created_at', label: 'Data', type: 'date' },
                 ]

@@ -14,6 +14,7 @@ import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
+import InputMask from 'react-input-mask';
 
 import Snackbar from '@material-ui/core/Snackbar';
 import CircularProgress from '@material-ui/core/CircularProgress';
@@ -187,7 +188,8 @@ function TextInputCustom(props) {
     //console.log(value);
     if (props.mask === undefined)
         return (
-            <TextField key={`input-${props.id}`} size="small" style={props.style}
+            <TextField key={`input-${props.id}`} size="small" 
+                style={props.style}
                 required={props.required ?? false}
                 disabled={props.disabled ?? false}
                 error={error}
@@ -200,6 +202,32 @@ function TextInputCustom(props) {
             />
         )
     else
+    return (
+        <InputMask 
+        key={`input-${props.id}`} size="small" 
+        required={props.required ?? false}
+        disabled={props.disabled ?? false}
+        name={props.name}
+        value={value}
+        id={props.id}
+        label={props.label}
+        mask={props.mask == "cpf_cnpj" ? value.length < 15 ? "999.999.999-999" : "99.999.999/9999-99" : props.mask} 
+        maskChar="" 
+        onChange={handleChange}
+        onBlur={handleChange}>
+                {(inputProps) =>
+                  <TextField
+                    error={error}
+                    style={props.style}
+                    helperText={error == true ? props.helperText ?? "conteúdo inválido" : ""}
+                    id={props.id} 
+                    label={props.label} 
+                    onChange={handleChange}
+                    onBlur={handleChange}
+                />
+                }
+              </InputMask> 
+    )
         return (
             <FormControl key={`input-${props.id}`} style={props.style} >
                 <InputLabel htmlFor={props.id}>{props.label}</InputLabel>
@@ -356,7 +384,7 @@ class LForms extends Component {
 
 
     render() {
-        const mainChange = (e, params) => {
+        const mainChange = async (e, params) => {
             let inputValues = this.state.inputVal;
             let formValidate = this.state.formValidate;
             let value = e.target.value;
@@ -384,8 +412,10 @@ class LForms extends Component {
                     value = value.replace(/[^\d]+/g, '');
                 }
                 if (params.handle !== undefined) {
-                    //let request = await params.handle(value)
-                    //value = request[id] ?? '';
+                    //console.log(await params.handle(value));
+                    let dt = await params.handle(value);
+                    inputValues = Object.assign({},inputValues,dt);
+                    console.log(inputValues);
                 }
 
 

@@ -16,7 +16,7 @@ class DriversController extends ControllersExtends
 
     public function show(Req $request, $id, $with=[])
     {
-       return  parent::show($request, $id, ['user', 'addresses', 'files_cnh']) ?? [];
+       return  parent::show($request, $id, ['user', 'addresses', 'files_cnh', 'files_crlv']) ?? [];
     }
 
     public function update(Req $request, $id)
@@ -42,6 +42,7 @@ class DriversController extends ControllersExtends
             if(isset($request->file_cnh)){
                 $drivers["file_crlv"] = $data["file_crlv"];
             }
+
             $address = [
                 "uf" => $request->uf,
                 "number" => $request->number,
@@ -50,10 +51,10 @@ class DriversController extends ControllersExtends
                 "street" => $request->street,
                 "zipcode" => $request->zipcode,
             ];
+
             parent::withAndChange([
                 \App\Models\Driver::class => $drivers,
-                \App\Models\Addresses::class => $address,
-            ],
+                \App\Models\Addresses::class => $address],
             ["permiss" => true, "key" => "driver_id"]);
 
             return parent::update($validate, $id);

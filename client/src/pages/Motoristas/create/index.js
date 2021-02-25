@@ -54,7 +54,7 @@ class CreateDrivers extends Component {
                 //this.props.enqueueSnackbar( response.data.message, { variant: 'success' });
                 this.props.setSnackbar({ open: true, message: response.data.message });
                 this.setState({ ...this.state, loading: false });
-                //this.props.history.goBack();
+                this.props.history.goBack();
             } else {
                 console.log(response)
                 let errors = response.data ?? undefined;
