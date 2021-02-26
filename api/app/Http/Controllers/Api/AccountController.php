@@ -59,12 +59,13 @@ class AccountController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'email' => 'required|email|exists:users,email',
+            'cnpj_cpf' => 'required|exists:clients,cnpj_cpf',
             'password' => 'required|confirmed',
             'token' => 'required'
         ]);
     
         if ($validator->fails()):
-            return response()->json(["success" => false, "type" => "error", "message" => "Email incorreto"], 302);
+            return response()->json(["success" => false, "type" => "error", "message" => "Erro de autenticação"], 302);
         endif;
 
         $password = $request->password;
