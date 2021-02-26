@@ -20,6 +20,7 @@ Route::get('/', function(){
 Route::post('login', 'Api\UsersController@login');
 Route::post('register', 'Api\UsersController@register');
 Route::post('reset', 'Api\UsersController@resetPassword');
+Route::put('resetpwd', 'Api\AccountController@resetPassword');
 /*Route::group(['middleware' => ['auth:api', 'scope:update-posts']], function(){
     
 });*/

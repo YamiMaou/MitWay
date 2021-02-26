@@ -11,6 +11,7 @@ import MiniDrawer from './components/Layout/Sidebar/minidrawer'
 
 import Home from './pages/Home';
 import Login from './pages/Login';
+import ResetPassword from './pages/Login/recovery';
 
 import Drivers from './pages/Motoristas';
 import CreateDrivers from './pages/Motoristas/create';
@@ -72,6 +73,7 @@ const AppRouter = (props) => {
           <Layout>
             <Switch>
               <Route path="/login" exact={true} component={Login} />
+              <Route path="/reset/:token" exact={true} component={ResetPassword} />
               <Route path="/" exact={true} render={() => (isAuth ?  <Home /> : <Redirect push to="/login" />)} />
               <Route path="/motoristas" exact={true} render={() => (isAuth ?  <Drivers /> : <Redirect push to="/login" />)} />
               <Route path="/motoristas/novo" exact={true} render={() => (isAuth ?  <CreateDrivers /> : <Redirect push to="/login" />)} />

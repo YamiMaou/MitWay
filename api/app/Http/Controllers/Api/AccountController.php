@@ -62,7 +62,6 @@ class AccountController extends Controller
             'password' => 'required|confirmed',
             'token' => 'required'
         ]);
-    
         if ($validator->fails()):
             return response()->json(["success" => false, "type" => "error", "message" => "Email incorreto"], 302);
         endif;
@@ -71,7 +70,7 @@ class AccountController extends Controller
         $tokenData = DB::table('password_resets')->where('token', $request->token)->first();
             
         if (!$tokenData):
-            return response()->json(["success" => false, "type" => "error", "message" => "Erro de autenticação"], 302);
+            return response()->json(["success" => false, "type" => "error", "message" => "Token Inválido"], 302);
         endif;
 
         $user = User::where('email', $tokenData->email)->first();
@@ -87,9 +86,9 @@ class AccountController extends Controller
 
         if ($user->password):
             //return redirect()->route("https://www.mitway.com/login");
-            return response()->json(["success" => true, "type" => "reset", "message" => "Erro de autenticação"], 200);
+            return response()->json(["success" => true, "type" => "reset", "message" => "Alterado com suceso"], 200);
         else:
-            return response()->json(["success" => false, "type" => "error", "message" => "Erro de autenticação"], 302);
+            return response()->json(["success" => false, "type" => "error", "message" => "Erro de senha"], 302);
         endif;
     }
 }

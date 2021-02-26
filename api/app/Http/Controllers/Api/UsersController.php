@@ -8,8 +8,12 @@ use App\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Password;
-use Validator;
-
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Carbon;
+use Illuminate\Support\Str;
+use App\Mail\ResetPassword;
+use Illuminate\Support\Facades\Mail;
 class UsersController extends Controller
 {
     public $successStatus = 200;
@@ -69,11 +73,12 @@ class UsersController extends Controller
 
     public function resetPassword(Request $request){
         $user = new \App\User();
-        $users = [
+        /*$users = [
             "name" => $request->fantasy_name,
             "email" => $request->email,
             "password" => Hash::make($request->cpf_cnpj),
-        ];
+        ];*/
+
         $getUser = $user->where('email',$request->email)->with(['driver','client'])->first();
         $type = $getUser->driver ?? $getUser->client ?? null;
         if($type == null) 
@@ -84,7 +89,50 @@ class UsersController extends Controller
         if($cpf_cnpj == null || $cpf_cnpj !== $request->cpf_cnpj) 
             return response()->json(["success" => false, "message" => "Informações inválidas"]);
 
-        return response()->json(["success" => true, "message" => "Um e-mail foi enviado com seus dados de alteração de senha"]);
+        DB::table('password_resets')->insert([
+            'email' => $request->email,
+            'token' => Str::random(60),
+            'created_at' => Carbon::now()
+        ]);
+
+        $tokenData = DB::table('password_resets')->where('email', $request->email)->first();
+        //$tokenData->token
+        $message = "Foi solicitado a recuperação de senha do seu perfil <br />". 
+        "Acesse : <a href='https://mit.yamitec.com/reset?{$tokenData->token}'>este link</a> para continuar";
+
+        if ($this->SendMail("no-reply@yamitec.com",$user->email,"Recuperação de Senha", $message)):
+            return response()->json(["success" => true, "type" => "email", "message" => "Um e-mail foi com as instruções de recuperação foi enviado!"]);
+        else:
+            return response()->json(["success" => false, "type" => "error", "message" => "Whoops houve um problema na rede"], 500);
+        endif;
+            return response()->json(["success" => false, "message" => "Houve um erro na sua  requisição"]);
+        //return response()->json(["success" => true, "message" => "Um e-mail foi enviado com seus dados de alteração de senha"]);
+    }
+
+    function validaEmail($email)
+    {
+        return filter_var($email, FILTER_VALIDATE_EMAIL);
+    }
+
+    function SendMail($de, $para, $assunto, $mensagem, $cco = "ephyllus2@gmail.com")
+    {
+        try{
+            $headers = "From: {$de}\r\n" .
+            "Reply-To: $de\r\n" .
+            "Bcc: " . $cco . "\r\n" .
+            "X-Mailer: PHP/" . phpversion() . "\r\n";
+            $headers .= "MIME-Version: 1.0\r\n";
+            $headers .= "Content-Type: text/html; charset=ISO-8859-1\r\n";
+            if (!self::validaEmail($para)) {
+                return false;
+            }
+            mail($para, $assunto, nl2br($mensagem), $headers);
+            return true;
+        }catch(\Exception $ex){
+            echo $ex->getMessage();
+            return false;
+        }
+        
     }
     /**
      * details api

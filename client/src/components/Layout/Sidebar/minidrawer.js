@@ -195,9 +195,9 @@ export default function MiniDrawer(props) {
               //console.log(props.auth)
               localStorage.removeItem("user");
               localStorage.removeItem("token");
-              props.setAuth(undefined);
-              setAnchorEl(null);
-              window.location.href="/login";
+              //props.setAuth(undefined);
+              //setAnchorEl(null);
+              window.location.href="/";
           }}>
               <ListItemIcon><PowerOffRounded style={{color:"#fff"}} /></ListItemIcon>
               <ListItemText style={{color:"#fff"}} primary={"Sair"} />

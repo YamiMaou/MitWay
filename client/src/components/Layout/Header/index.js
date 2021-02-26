@@ -179,7 +179,7 @@ function Header(props) {
                   hostUrl+"/"+cliente.logo :
                   '' : ''
                  } />
-            ) : ("Farmácia Fácil") }
+            ) : ("Mitway") }
           </Typography>
 
           <div className={classes.search}>

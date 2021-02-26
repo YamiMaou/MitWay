@@ -8,7 +8,7 @@ if (!process.env.NODE_ENV || process.env.NODE_ENV === 'development') {
 } else {
   apiHost = hostname;
 }
-//apiHost = hostname;
+apiHost = hostname;
 let token = localStorage.getItem("token");
 export const Api = () => {
   return axios.create({
@@ -38,6 +38,48 @@ function lower(obj) {
 }
 /// new API METHOD
 /// Auth API Methods
+
+export const postResetPassword = async (params = {}) => {
+  const data = Object.entries(params)
+    .map(([key, val]) => `${key}=${encodeURIComponent(val)}`)
+    .join('&');
+  const options = {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    data: params,
+    url: apiHost + '/reset',
+  };
+  try {
+    const response = await axios(options);  // wrap in async function
+    return response;
+  } catch (error) {
+    console.log('Whoops! Houve um erro.', error.message || error)
+    return { data: { success: false, message: "problema ao se conectar com o servidor!" } }
+  }
+};
+
+export const putResetPassword = async (params = {}) => {
+  const data = new FormData();
+  data.append("_method", "put");
+  Object.entries(params)
+    .map(([key, val]) => {
+      data.append(key, val);
+      //`${key}=${encodeURIComponent(val)}`
+    });
+  const options = {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    data,
+    url: apiHost + '/resetpwd',
+  };
+  try {
+    const response = await axios(options);  // wrap in async function
+    return response;
+  } catch (error) {
+    console.log('Whoops! Houve um erro.', error.message || error)
+    return { data: { success: false, message: error.message } }
+  }
+};
 
 export const postAuth = async (params = {}) => {
   
