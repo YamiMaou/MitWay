@@ -93,8 +93,8 @@ class Clients extends Component {
                     return stringCpf(params.value);
                 }
             },
-            { field: 'fantasy_name', headerName: 'Nome',flex: 2 },
-            { field: 'company_name', headerName: 'Tipo de CNH', flex: 1 },
+            { field: 'fantasy_name', headerName: 'Nome Fantasia',flex: 2 },
+            { field: 'company_name', headerName: 'Razão Social', flex: 1 },
             {
                 field: 'id',
                 headerName: 'Ações',

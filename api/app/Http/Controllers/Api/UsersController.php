@@ -97,10 +97,10 @@ class UsersController extends Controller
 
         $tokenData = DB::table('password_resets')->where('email', $request->email)->first();
         //$tokenData->token
-        $message = "Foi solicitado a recuperação de senha do seu perfil <br />". 
-        "Acesse : <a href='https://mit.yamitec.com/reset?{$tokenData->token}'>este link</a> para continuar";
+        $message = "Foi solicitado a recuperação de senha do seu perfil \n". 
+        "Acesse : <a href='https://mitway.yamitec.com/reset/{$tokenData->token}'>este link</a> para continuar";
 
-        if ($this->SendMail("no-reply@yamitec.com",$user->email,"Recuperação de Senha", $message)):
+        if ($this->SendMail("no-reply@yamitec.com",$getUser->email,"Recuperação de Senha", $message)):
             return response()->json(["success" => true, "type" => "email", "message" => "Um e-mail foi com as instruções de recuperação foi enviado!"]);
         else:
             return response()->json(["success" => false, "type" => "error", "message" => "Whoops houve um problema na rede"], 500);
