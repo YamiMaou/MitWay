@@ -15,6 +15,6 @@ class Qualification extends Model
 
     public function drivers()
     {
-        return $this->belongsToMany(Qualification::class, 'driver_qualifications', 'qualification_id', 'driver_id');
+        return $this->belongsToMany(Driver::class, 'driver_qualifications', 'qualification_id', 'driver_id');
     }
 }
