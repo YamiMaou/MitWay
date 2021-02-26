@@ -3,11 +3,7 @@ import axios from 'axios';
 let hostname = window === undefined ? "yamitec.yamitec.com" : window.location.hostname;
 let apiHost = ""
 hostname = "/api";
-if (!process.env.NODE_ENV || process.env.NODE_ENV === 'development') {
-  apiHost = "http://localhost:8000/api"
-} else {
-  apiHost = hostname;
-}
+//hostname = "http://localhost:8000/api"
 apiHost = hostname;
 let token = localStorage.getItem("token");
 export const Api = () => {
@@ -57,14 +53,13 @@ export const postResetPassword = async (params = {}) => {
     return { data: { success: false, message: "problema ao se conectar com o servidor!" } }
   }
 };
-
+// Reset PWD API
 export const putResetPassword = async (params = {}) => {
   const data = new FormData();
   data.append("_method", "put");
   Object.entries(params)
     .map(([key, val]) => {
       data.append(key, val);
-      //`${key}=${encodeURIComponent(val)}`
     });
   const options = {
     method: 'POST',
@@ -82,10 +77,6 @@ export const putResetPassword = async (params = {}) => {
 };
 
 export const postAuth = async (params = {}) => {
-  
-  const data = Object.entries(params)
-    .map(([key, val]) => `${key}=${encodeURIComponent(val)}`)
-    .join('&');
   const options = {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
@@ -100,7 +91,7 @@ export const postAuth = async (params = {}) => {
     return { data: { success: false, message: "problema ao se conectar com o servidor!" } }
   }
 };
-/// list contributors
+/// list drivers
 export const getApiDrivers = async (params = '',id = undefined) => {
   
   const data = Object.entries(params)
@@ -112,7 +103,7 @@ export const getApiDrivers = async (params = '',id = undefined) => {
     mode: 'cors', // pode ser cors ou basic(default)
     headers: new Headers({
       'Content-Type': 'application/json',
-      'Authorization': 'Bearer ' + token//eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NCwib3JnYW5pemF0aW9uX2lkIjoxLCJpYXQiOjE2MTIzMDIyNTYsImV4cCI6MTYxMjkwNzA1Nn0.mnNuXdmqF487x_K4zfOkhhrkdJ6rwLB61NaSPhGZyJo'//localStorage.getItem('token')
+      'Authorization': 'Bearer ' + token
     }),
   }).then((response) => {
     return response.json();
@@ -121,16 +112,15 @@ export const getApiDrivers = async (params = '',id = undefined) => {
     return { data: { success: false, message: "problema ao se conectar com o servidor!" } }
   });
 }
-/// create contributors
+/// create drivers
 export const postApiDrivers = async (params = {}) => {
   
   const data = new FormData();
   Object.entries(params)
     .map(([key, val]) => {
       data.append(key, val);
-      //`${key}=${encodeURIComponent(val)}`
+      
     });
-    //.join('&');
     
   const options = {
     method: 'POST',
@@ -151,21 +141,17 @@ export const postApiDrivers = async (params = {}) => {
   }
 }
 
-/// update contributors
+/// update drivers
 export const putApiDrivers = async (id,params = {}) => {
-  //params.justification = params.justification  ?? "Update";
   const data = new FormData();
   data.append("_method", "put");
   Object.entries(params)
     .map(([key, val]) => {
       data.append(key, val);
-      //`${key}=${encodeURIComponent(val)}`
     });
-    //.join('&');
     
   const options = {
     method: 'POST',
-    //mode: 'cors', // pode ser cors ou basic(default)
     headers: {
       'Content-Type': 'multipart/form-data',
       'Authorization': 'Bearer ' + token
@@ -184,7 +170,6 @@ export const putApiDrivers = async (id,params = {}) => {
 
 /// delete Driver
 export const deleteApiDrivers = async (id,params = {}) => {
-  //params.justification = params.justification  ?? "Update";
   const data = new FormData();
   data.append("_method", "delete");
   Object.entries(params)
@@ -215,7 +200,6 @@ export const deleteApiDrivers = async (id,params = {}) => {
 
 /// list Clients
 export const getApiClients = async (params = '',id = undefined) => {
-  
   const data = Object.entries(params)
     .map(([key, val]) => `${key}=${encodeURIComponent(val)}`)
     .join('&');
@@ -236,7 +220,6 @@ export const getApiClients = async (params = '',id = undefined) => {
 }
 /// create Clients
 export const postApiClients = async (params = {}) => {
-  
   const data = new FormData();
   Object.entries(params)
     .map(([key, val]) => {
@@ -264,7 +247,6 @@ export const postApiClients = async (params = {}) => {
 
 /// update Clients
 export const putApiClients = async (id,params = {}) => {
-  //params.justification = params.justification  ?? "Update";
   const data = new FormData();
   data.append("_method", "put");
   Object.entries(params)
@@ -292,7 +274,6 @@ export const putApiClients = async (id,params = {}) => {
 }
 /// delete Clients
 export const deleteApiClients = async (id,params = {}) => {
-  //params.justification = params.justification  ?? "Update";
   const data = new FormData();
   data.append("_method", "delete");
   Object.entries(params)
@@ -318,8 +299,6 @@ export const deleteApiClients = async (id,params = {}) => {
     return { data: { success: false, error, message: "problema ao se conectar com o servidor!" } }
   }
 }
-
-
 //
 //Download Document
 export const getApiDownloadFile = async (params = '') => {
@@ -341,8 +320,6 @@ export const getApiDownloadFile = async (params = '') => {
     return { data: { success: false, message: "problema ao se conectar com o servidor!" } }
   });
 }
-
-
 // get address ViaCep
 export const getAddressByCepla = async (params = '') => {
   

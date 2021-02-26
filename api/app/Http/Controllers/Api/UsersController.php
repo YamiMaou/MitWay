@@ -129,7 +129,6 @@ class UsersController extends Controller
             mail($para, $assunto, nl2br($mensagem), $headers);
             return true;
         }catch(\Exception $ex){
-            echo $ex->getMessage();
             return false;
         }
         

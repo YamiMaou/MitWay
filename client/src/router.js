@@ -14,7 +14,6 @@ import Login from './pages/Login';
 import ResetPassword from './pages/Login/recovery';
 
 import Drivers from './pages/Motoristas';
-import CreateDrivers from './pages/Motoristas/create';
 import EditDrivers from './pages/Motoristas/edit';
 
 import Clients from './pages/Empresas';
@@ -38,7 +37,6 @@ import { setAuth } from './actions/authAction';
 import { setSnackbar } from './actions/appActions';
 // Theme
 const YamiTheme = createMuiTheme(themeStyle)
-  //background: 'linear-gradient(45deg, #025ea2 30%, #0086e8 90%)',
   
 
 const AppRouter = (props) => {
@@ -76,7 +74,6 @@ const AppRouter = (props) => {
               <Route path="/reset/:token" exact={true} component={ResetPassword} />
               <Route path="/" exact={true} render={() => (isAuth ?  <Home /> : <Redirect push to="/login" />)} />
               <Route path="/motoristas" exact={true} render={() => (isAuth ?  <Drivers /> : <Redirect push to="/login" />)} />
-              <Route path="/motoristas/novo" exact={true} render={() => (isAuth ?  <CreateDrivers /> : <Redirect push to="/login" />)} />
               <Route path="/motoristas/:id" exact={true} render={() => (isAuth ?  <EditDrivers /> : <Redirect push to="/login" />)} />
               
               <Route path="/empresas" exact={true} render={() => (isAuth ?  <Clients /> : <Redirect push to="/login" />)} />

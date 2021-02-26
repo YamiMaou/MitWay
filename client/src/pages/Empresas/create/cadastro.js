@@ -16,13 +16,9 @@ import Tab from '@material-ui/core/Tab';
 import LForms from '../../../components/Forms';
 //
 import { setSnackbar } from '../../../actions/appActions'
-import { postApiClients, getApiDownloadFile, getAddressByCepla, postApiDrivers } from '../../../providers/api'
+import { postApiClients, postApiDrivers } from '../../../providers/api'
 import { validaEmail, validaCpf, isFutureData,validaCPFCNPJ, setAddressByCepla } from '../../../providers/commonMethods'
 
-import { InputCep, InputCpf, InputPhone } from '../../../providers/masks'
-import { Redirect } from 'react-router-dom';
-
-import { withSnackbar  } from 'notistack';
 const flexBasis = '22%';
 class CreateClients extends Component {
     
@@ -36,57 +32,11 @@ class CreateClients extends Component {
     }
 
     render() {
-         // to use snackbar Provider
-        const closeSnack = (event, reason) => {
-            if (reason === 'clickaway') {
-                return;
-            }
-            this.props.setSnackbar({ open: false, message: "" });
-        };
-
-        const postType = () => {
-            return this.state.type == 1 ? [
-                    { column: 'cpf_cnpj', label: 'CNPJ', type: 'text', mask: "cpf_cnpj", validate: {min: 11, number: true, required: true}, validateHandler: validaCPFCNPJ, flexBasis: '12%', helperText: "o valor digitado é inválido" },
-                    { column: 'company_name', label: 'Razão Social', type: 'text', validate: {max: 50, required: true}, flexBasis },
-                    { column: 'fantasy_name', label: 'Nome Fantasia', type: 'text', validate: {max: 50, required: true}, flexBasis },
-                    { column: 'email', label: 'E-mail', type: 'email', validate: { max: 100 }, validateHandler: validaEmail, flexBasis},
-                    { column: 'phone', label: 'Telefone', type: 'text', mask: "(99)9 9999-9999", validate: { max: 15, required: true }, flexBasis},
-                    { column: 'mob_phone', label: 'Celular', type: 'text', mask: "(99)9 9999-9999", validate: { max: 15, required: true }, flexBasis},
-                    { column: 'file_cnh', label: 'Anexar CNH', type: 'file', flexBasis, style:{maxWidth: '180'} },
-                    
-                    //{ column: 'created_at', label: 'Data', type: 'date' },
-                ]: [
-                    { column: 'cpf_cnpj', label: 'CPF', type: 'text', mask: "999.999.999-99", validate: {min: 11, number: true, required: true},validateHandler: validaCpf, flexBasis: '12%', helperText: "o valor digitado é inválido" },
-                    { column: 'cnh', label: 'Tipo de CNH', type: 'select', validate: {required: true}, 
-                    values:[
-                        "A", "B", "C", "D", "E", "AB"
-                    ],flexBasis },
-                    { column: 'fullname', label: 'Nome', type: 'text', validate: {max: 50, required: true}, flexBasis },
-                    { column: 'mob_phone', label: 'Celular', type: 'text', mask: "(99)9 9999-9999", validate: { max: 15, required: true }, flexBasis},
-                    { column: 'file_cnh', label: 'Anexar CNH', type: 'file', flexBasis, style:{maxWidth: '180'} },
-                    { column: 'phone', label: 'Telefone', type: 'text', mask: "(99)9 9999-9999", validate: { max: 15, required: true }, flexBasis},
-                    { column: 'email', label: 'E-mail', type: 'email', validate: { max: 100 }, validateHandler: validaEmail, flexBasis},
-                    { column: 'birthdate', label: 'Data de nascimento', type: 'date', validate: {required: true}, validateHandler: isFutureData, flexBasis, style:{maxWidth: '210px'} },
-                    //
-                    
-                    { column: 'file_crlv', label: 'Anexar CRLV', type: 'file', flexBasis, style:{maxWidth: '180'} },
-                    
-                    //{ column: 'created_at', label: 'Data', type: 'date' },
-                ]
-        }
-        
         const request = async (data) => {
             this.props.setSnackbar({ open: true, message: "Validando Dados, Aguarde ...", });
-            //data = Object.assign({},state.addresses,data);
-            //data = Object.assign({},state.contacts,data);
-            //data = Object.assign({},state,data);
-            //delete data.addresses;
-           // delete data.contacts;
-
+            
             let response =  this.state.type == 0 ? await postApiClients(data) : await postApiDrivers(data);
-            //console.log(response);
             if (response.data.success) {
-                //this.props.enqueueSnackbar( response.data.message, { variant: 'success' });
                 this.props.setSnackbar({ open: true, message: response.data.message });
                 this.setState({ ...this.state, loading: false });
                 this.props.history.goBack();
@@ -94,7 +44,6 @@ class CreateClients extends Component {
                 console.log(response)
                 let errors = response.data ?? undefined;
 
-                //let { errors } = response.data.error.response.data ?? {error: undefined}
                 let messages = '';
                 if(errors !== undefined && errors.data !== undefined && errors.data.response !== undefined  && errors.data.response.data.errors !== undefined){
                     Object.keys(errors.response.data.errors).map(err => {
@@ -105,15 +54,12 @@ class CreateClients extends Component {
                 } else{
                     messages = 'Houve um problema em sua requisição!'
                 }
-                //response.data.error.response.data.errors
-                //this.props.enqueueSnackbar( message, { variant: 'error' });
                 this.setState({ ...this.state, loading: false });
                 this.props.setSnackbar({ open: true, message: messages});
             }
 
         }
         const validateFields = (fields, values) => {
-            //console.log(fields);
             let campo = undefined;
             let fieldl = fields;
             fieldl.reverse().map((v,k) => {
@@ -150,7 +96,6 @@ class CreateClients extends Component {
                         }
                     })
                 })
-                //console.log(campo)
                 campo !== undefined ? this.props.setSnackbar({ open: true, message: campo.message}) : '';
 
                 return campo === undefined ? true : false
@@ -166,15 +111,11 @@ class CreateClients extends Component {
                     { column: 'phone', label: 'Telefone', type: 'text', mask: "(99)9 9999-9999", validate: { max: 15, required: true }, flexBasis},
                     { column: 'mob_phone', label: 'Celular', type: 'text', mask: "(99)9 9999-9999", validate: { max: 15, required: true }, flexBasis},
                     { column: 'file_cnh', label: 'Anexar CNH', validate: {required: true}, type: 'file', flexBasis, style:{maxWidth: '180'} },
-                    
-                    //{ column: 'created_at', label: 'Data', type: 'date' },
                 ]
             },
             {
                 id: 'addr',
                 title: 'Endereço',
-                //flexFlow: 'row no-wrap',
-                //json: "address",
                 fields: [
                     { column: 'zipcode', label: 'CEP', type: 'text', mask: "99999-999", validate: { max: 9, required: true }, flexBasis: '9%'},
                     { column: 'street', label: 'Endereço', validate: { max: 100, required: true }, type: 'text', flexBasis},
@@ -214,8 +155,6 @@ class CreateClients extends Component {
             {
                 id: 'addr',
                 title: 'Endereço',
-                //flexFlow: 'row no-wrap',
-                //json: "address",
                 fields: [
                     { column: 'zipcode', label: 'CEP', type: 'text', mask: "99999-999", validate: { max: 9, required: true }, flexBasis: '9%'},
                     { column: 'street', label: 'Endereço', validate: { max: 100, required: true }, type: 'text', flexBasis},
@@ -241,7 +180,6 @@ class CreateClients extends Component {
                 <Tabs
                     value={this.state.type}
                     indicatorColor="primary"
-                    //textColor="primary"
                     onChange={(e,val)=> {
                         this.setState({...this.state, type: val}) ;
                     }}

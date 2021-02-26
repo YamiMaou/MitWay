@@ -105,7 +105,6 @@ export function validaCNPJ(cnpj) {
 
 //
 export function validaCpf(strCPF = "") {
-  //console.log(strCPF);
   strCPF = strCPF.replace(/[^\d]+/g, '');
   var Soma;
   var Resto;

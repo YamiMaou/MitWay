@@ -39,19 +39,12 @@ class EditDrivers extends Component {
         const request = async (state, data) => {
             this.setState({ ...this.state, loading: true });
             this.props.setSnackbar({ open: true, message: "Validando Dados, Aguarde ...", });
-            //this.props.enqueueSnackbar("Validando Dados, Aguarde ...", {variant: 'info'});
-            //let address = JSON.stringify(Object.assign({},JSON.parse(state.address),data.address));
-            //let contact = JSON.stringify(Object.assign({},JSON.parse(state.contact),data.contact));
-            //if (data.address) data.address = address;
-            //if (data.contact) data.contact = contact
-            //if (data.active) data.active = data.active == 'Ativo' ? 1 : 0;
             data = Object.assign({},state.addresses,data);
             data = Object.assign({},state.contacts,data);
             data = Object.assign({},state,data);
             delete data.addresses;
             delete data.contacts;
             let response = await putApiDrivers(this.props.match.params.id, data);
-            //console.log(response);
             if (response.data.success) {
                 this.props.setSnackbar({ open: true, message: response.data.message });
                 this.setState({ ...this.state, loading: false });
@@ -70,7 +63,6 @@ class EditDrivers extends Component {
                     messages = 'Houve um problema em sua requisição!'
                 }
                 this.setState({ ...this.state, loading: false });
-                //response.data.error.response.data.errors
                 this.props.setSnackbar({ open: true, messages});
             }
 
@@ -113,7 +105,6 @@ class EditDrivers extends Component {
                     }
                 })
             })
-            //console.log(campo)
             campo !== undefined ? this.props.setSnackbar({ open: true, message: campo.message}) : '';
 
             return campo === undefined ? true : false
@@ -134,17 +125,12 @@ class EditDrivers extends Component {
                     { column: 'phone', label: 'Telefone', type: 'text', mask: "(99)9 9999-9999", validate: { max: 15, required: true }, value: this.state.driver['phone'], flexBasis},
                     { column: 'email', label: 'E-mail', type: 'email', validate: { max: 100 }, validateHandler: validaEmail, value: this.state.driver['email'], flexBasis},
                     { column: 'birthdate', label: 'Data de nascimento', type: 'date', validate: {required: true}, validateHandler: isFutureData, flexBasis, value: this.state.driver['birthdate'], style:{maxWidth: '210px'} },
-                    //
                     { column: 'file_crlv', label: 'Anexar CRLV', validate: {required: true}, file: this.state.driver['files_crlv'] ? this.state.driver['files_crlv'].name : '', type: 'file', flexBasis:'15%', style:{maxWidth: '180'} },
-                    
-                    //{ column: 'created_at', label: 'Data', type: 'date' },
                 ]
             },
             {
                 id: 'addr',
                 title: 'Endereço',
-                //flexFlow: 'row no-wrap',
-                //json: "address",
                 fields: [
                     { column: 'zipcode', label: 'CEP', type: 'text', mask: "99999-999", validate: { max: 9, required: true }, flexBasis: '9%', value: this.state.driver['addresses'].zipcode },
                     { column: 'street', label: 'Endereço', validate: { max: 100, required: true }, type: 'text', flexBasis, value: this.state.driver['addresses'].street },

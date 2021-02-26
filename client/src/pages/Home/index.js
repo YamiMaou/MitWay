@@ -4,11 +4,6 @@ import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux';
 //
 import Card from '@material-ui/core/Card';
-import CardActionArea from '@material-ui/core/CardActionArea';
-import CardActions from '@material-ui/core/CardActions';
-import CardContent from '@material-ui/core/CardContent';
-import CardMedia from '@material-ui/core/CardMedia';
-import Typography from '@material-ui/core/Typography';
 // MAPS LAYOUT
 import Icon from 'react-native-vector-icons/FontAwesome';
 import Button from '@material-ui/core/Button';
@@ -92,15 +87,7 @@ class Home extends Component {
     }
 
     componentDidMount() {
-        /*setInterval(() => {
-            let stores = this.state.stores;
-            this.state.stores.map((ind,mark) => {
-                stores[ind] = {lat: mark.lat+10000, lng: mark.lng};
-            });
-            this.setState(previousState => {
-             return { stores  };
-            });
-        }, 1000)*/
+        
     }
     dialogHandler(item) {
         this.props.setDialog(true)
@@ -289,18 +276,11 @@ class Home extends Component {
                     <Card>
                     <div style={{ height: 350, width: '100%' }}>
                             <DataGrid rows={rows} columns={columns}
-                                //columnBuffer={4}
-                                //disableColumnResize={true}
                                 disableClickEventBubbling
                                 disableColumnMenu={true}
-                                //loading={this.state.loading}
+                                
                                 localeText={DEFAULT_LOCALE_TEXT}
-                                //paginationMode="server"
-                                //rowCount={this.state.data.total ?? 0}
-                                //pageSize={10} rowsPerPageOptions={[10]} pagination
-                                /*onPageSizeChange={(params) => {
-                                    this.setPage({ page: params.page, pageSize: params.pageSize });
-                                }}*/
+                                
                             />
                         </div>
                     </Card>

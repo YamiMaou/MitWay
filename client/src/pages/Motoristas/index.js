@@ -68,23 +68,12 @@ class Drivers extends Component {
         contributors: [],
         pageRequest: {},
         blockDialog: {open: false, id: undefined,active: 0, handle: undefined},
-       
     }
     
     async componentDidMount() {
     }
 
     render() {
-        const authData = JSON.parse(localStorage.getItem("user"));
-        const classes = {
-            root: {
-                //maxWidth: 345,
-                height: window.innerHeight -150
-            },
-            media: {
-                height: 140,
-            },
-        }
         const rows : RowsProp = this.state.contributors.data ?? [];
         const columns: ColDef[] = [
             { field: 'cpf_cnpj', headerName: 'CPF', flex: 0.7,
@@ -118,10 +107,8 @@ class Drivers extends Component {
         const filter = [
             { column: 'fullname', label: 'Nome', type: 'text', flexBasis },
             { column: 'cpf_cnpj', label: 'CPF/CNPJ', type: 'text', 
-            //mask: InputCpf, 
             flexBasis },
             { column: 'cnh', label: 'TIPO de CNH', type: 'text', flexBasis },
-            //{ column: 'created_at', label: 'Data', type: 'date' },
         ]
 
         return (
@@ -131,8 +118,6 @@ class Drivers extends Component {
                         <Typography variant="h6" style={{flexGrow: 1}}>
                             <HomeIcon />  <span>Motoristas</span>
                         </Typography>
-                        
-                        
                     </Toolbar>
                     
                 </AppBar>

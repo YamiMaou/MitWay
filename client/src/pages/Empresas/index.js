@@ -31,7 +31,6 @@ import { DataGrid, RowsProp, ColDef, CheckCircleIcon } from '@material-ui/data-g
 
 function BlockDialog(props) {
     const [open, setOpen] = React.useState(props.open);
-    const [justfy, setjustfy] = React.useState(undefined);
     
     const handleClose = () => {
       setOpen(false);
@@ -76,16 +75,6 @@ class Clients extends Component {
     }
 
     render() {
-        const authData = JSON.parse(localStorage.getItem("user"));
-        const classes = {
-            root: {
-                //maxWidth: 345,
-                height: window.innerHeight -150
-            },
-            media: {
-                height: 140,
-            },
-        }
         const rows : RowsProp = this.state.clients.data ?? [];
         const columns: ColDef[] = [
             { field: 'cnpj_cpf', headerName: 'CNPJ', flex: 0.7,
@@ -121,7 +110,6 @@ class Clients extends Component {
                                 let row = params.row;
                                 delete params.row;
                                 params.row = row;
-                                //params.row.active = status;
                             }
                             this.setState({...this.state, blockDialog: {open: true, id: params.value, handle }})
                         }}
@@ -137,11 +125,9 @@ class Clients extends Component {
         const filter = [
             
             { column: 'cnpj_cpf', label: 'CPF/CNPJ', type: 'text', 
-            //mask: InputCpf, 
             flexBasis },
             { column: 'company_name', label: 'Nome', type: 'text', flexBasis },
             { column: 'fantasy_name', label: 'Nome', type: 'text', flexBasis },
-            //{ column: 'created_at', label: 'Data', type: 'date' },
         ]
 
         return (
@@ -171,7 +157,7 @@ class Clients extends Component {
                             handleClose={() => {
                                 this.setState({...this.state, blockDialog: { open : false, id: undefined }})
                             }}
-                            />
+                        />
             </Fragment>
         )
     }
