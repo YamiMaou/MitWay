@@ -11,7 +11,7 @@
       name="viewport"
       content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1.00001, viewport-fit=cover"
     />
-    <title>Farmácia Fácil</title>
+    <title>MitWay</title>
     <style>
       /**
        * Extend the react-native-web reset:
@@ -19,6 +19,9 @@
        */
       html,
       body,
+      .MuiDataGrid-viewport {
+        min-width: 600px;
+      }
       #root {
         width: 100%;
         /* To smooth any scrolling behavior */

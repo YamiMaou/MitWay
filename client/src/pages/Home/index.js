@@ -82,16 +82,26 @@ class Home extends Component {
             activeMarker: {},
             selectedPlace: {},
             item: undefined,
+            dispkayMarkers: this.displayMarkers,
             stores: [
-                { lat: -23.668340, lng: -46.791490 },
-                { lat: -23.671700, lng: -46.773200 },
+                { lat: -23.668340, lng: -46.791490, name: 'Adolfo' },
+                { lat: -23.671700, lng: -46.773200, name: 'Henrrique' },
+                { lat: -23.671700, lng: -46.775800, name: 'Eduardo' },
             ]
         }
     }
 
-    async componentDidMount() {
+    componentDidMount() {
+        /*setInterval(() => {
+            let stores = this.state.stores;
+            this.state.stores.map((ind,mark) => {
+                stores[ind] = {lat: mark.lat+10000, lng: mark.lng};
+            });
+            this.setState(previousState => {
+             return { stores  };
+            });
+        }, 1000)*/
     }
-
     dialogHandler(item) {
         this.props.setDialog(true)
         this.setState({ ...this.state, item });
@@ -110,7 +120,7 @@ class Home extends Component {
             return <Marker
                 key={index}
                 id={index}
-                title={`Motorista ${(index + 1)}`}
+                title={`${store.name}`}
                 description={`Parado`}
                 //icon={iconMarker}
                 onClick={this.onMarkerClick}
@@ -125,7 +135,8 @@ class Home extends Component {
             >
                 <InfoWindow>
                     <div>
-                        <h1>MOTORISTA</h1>
+                        <span>${store.name}</span>
+                        <small>{`Motorista`}</small>
                     </div>
                 </InfoWindow>
             </Marker>
@@ -172,19 +183,19 @@ class Home extends Component {
         }
         const rows: RowsProp = [
             { 
-                id: 1, carga: '1232123-1231', cliente: 'Antunes nunes', contratado: 'Adolfo', active: 1,
+                id: 1, carga: '025253615-0214', cliente: 'Antunes nunes', contratado: 'Adolfo', active: 1,
                 coleta: '11.02.2021 às 10:05', entrega:  '11.02.2021 às 13:23',
-                endereco: 'R. Antonio alarmante de souza, 21, liberade, São Paulo-SP'
+                endereco: 'R. Serafim Ponte Grande, JD Amália, São Paulo - SP'
              },
              { 
-                id: 1, carga: '1232123-1231', cliente: 'Antunes nunes', contratado: 'Adolfo', active: 1,
+                id: 2, carga: '025233615-0213', cliente: 'Antunes nunes', contratado: 'Eduardo', active: 1,
                 coleta: '11.02.2021 às 10:05', entrega:  '11.02.2021 às 13:23',
-                endereco: 'R. Antonio alarmante de souza, 21, liberade, São Paulo-SP'
+                endereco: 'R. Florenza, Villa Fazzeone, São Paulo - SP'
              },
              { 
-                id: 1, carga: '1232123-1231', cliente: 'Antunes nunes', contratado: 'Adolfo', active: 1,
+                id: 3, carga: '025288695-0804', cliente: 'Antunes nunes', contratado: 'Henrrique', active: 1,
                 coleta: '11.02.2021 às 10:05', entrega:  '11.02.2021 às 13:23',
-                endereco: 'R. Antonio alarmante de souza, 21, liberade, São Paulo-SP'
+                endereco: 'Av. Comendador Santana, Capão Redondo, São Paulo - SP'
              },
           ];
         const columns: ColDef[] = [
@@ -240,7 +251,9 @@ class Home extends Component {
                         right: 15,
                         zIndex: 9999,
                     }}>
-                        <BasicButtonGroup style={{ backgroundColor: '#fff' }} />
+                        {window.innerWidth > 720 &&
+                            <BasicButtonGroup style={{ backgroundColor: '#fff' }} />
+                        }
                     </div>
                     <div style={{
                         position: 'absolute',
@@ -256,8 +269,8 @@ class Home extends Component {
                         zoomControl={false}
                         streetViewControl={false}
                         google={this.props.google}
-                        zoom={12}
-                        bounds={bounds}
+                        zoom={15}
+                        //bounds={bounds}
                         style={{ height: 350 }}
                         onLayout={() => { this.mark.showCallout(); }}
                         initialCenter={{ lat: -23.67002, lng: -46.782345 }}

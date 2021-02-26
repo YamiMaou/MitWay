@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\User;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Password;
 use Validator;
 
 class UsersController extends Controller
@@ -59,6 +61,30 @@ class UsersController extends Controller
             'data' => $user
         ];
         return response()->json(['success' => $success], $this->successStatus);
+    }
+
+    /**
+     * reset Password
+     */
+
+    public function resetPassword(Request $request){
+        $user = new \App\User();
+        $users = [
+            "name" => $request->fantasy_name,
+            "email" => $request->email,
+            "password" => Hash::make($request->cpf_cnpj),
+        ];
+        $getUser = $user->where('email',$request->email)->with(['driver','client'])->first();
+        $type = $getUser->driver ?? $getUser->client ?? null;
+        if($type == null) 
+            return response()->json(["success" => false, "message" => "Informações inválidas"]);
+
+        $cpf_cnpj = $type->cpf_cnpj ?? $type->cnpj_cpf ?? null; 
+
+        if($cpf_cnpj == null || $cpf_cnpj !== $request->cpf_cnpj) 
+            return response()->json(["success" => false, "message" => "Informações inválidas"]);
+
+        return response()->json(["success" => true, "message" => "Um e-mail foi enviado com seus dados de alteração de senha"]);
     }
     /**
      * details api

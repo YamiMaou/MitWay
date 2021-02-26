@@ -27,40 +27,6 @@ const flexBasis = '22%';
 class CreateClients extends Component {
     
     state = {
-        forms: [
-            {
-                title: 'Dados Básicos',
-                fields: [
-                    { column: 'cpf_cnpj', label: 'CNPJ', type: 'text', mask: "cpf_cnpj", validate: {min: 11, number: true, required: true}, validateHandler: validaCPFCNPJ, flexBasis: '12%', helperText: "o valor digitado é inválido" },
-                    { column: 'company_name', label: 'Razão Social', type: 'text', validate: {max: 50, required: true}, flexBasis },
-                    { column: 'fantasy_name', label: 'Nome Fantasia', type: 'text', validate: {max: 50, required: true}, flexBasis },
-                    { column: 'email', label: 'E-mail', type: 'email', validate: { max: 100 }, validateHandler: validaEmail, flexBasis},
-                    { column: 'phone', label: 'Telefone', type: 'text', mask: "(99)9 9999-9999", validate: { max: 15, required: true }, flexBasis},
-                    { column: 'mob_phone', label: 'Celular', type: 'text', mask: "(99)9 9999-9999", validate: { max: 15, required: true }, flexBasis},
-                    { column: 'file_cnh', label: 'Anexar CNH', type: 'file', flexBasis, style:{maxWidth: '180'} },
-                    
-                    //{ column: 'created_at', label: 'Data', type: 'date' },
-                ]
-            },
-            {
-                id: 'addr',
-                title: 'Endereço',
-                //flexFlow: 'row no-wrap',
-                //json: "address",
-                fields: [
-                    { column: 'zipcode', label: 'CEP', type: 'text', mask: "99999-999", handle: setAddressByCepla ,validate: { max: 9, required: true }, flexBasis: '9%'},
-                    { column: 'street', label: 'Endereço', validate: { max: 100, required: true }, type: 'text', flexBasis},
-                    { column: 'number', label: 'Número', type: 'number', validate: { number: true, required: true }, flexBasis: '9%'},
-                    { column: 'additional', label: 'Complemento', type: 'text', flexBasis: '10%'},
-                    {
-                        column: 'uf', label: 'Estado', type: 'select',
-                        values: ["Acre", "Alagoas", "Amazonas", "Amapá", "Bahia", "Ceará", "Brasília", "Espírito Santo", "Goiás", "Maranhão", "Minas Gerais", "Mato Grosso do Sul", "Mato Grosso", "Pará", "Paraíba", "Pernambuco", "Piauí", "Paraná", "Rio de Janeiro", "Rio Grande do Norte", "Rondônia", "Roraima", "Rio Grande do Sul", "Santa Catarina", "Sergipe", "São Paulo", "Tocantins"],
-                        flexBasis, flexGrow: 2, style: { minWidth: "192px" }
-                    },
-                    { column: 'city', label: 'Cidade', type: 'text', validate: { max: 100, required: true }, flexBasis },
-                ]
-            },
-        ],
         states: [],
         type: 0
     }
@@ -79,9 +45,7 @@ class CreateClients extends Component {
         };
 
         const postType = () => {
-            return this.state.type == 1 ? {
-                title: 'Dados Básicos',
-                fields: [
+            return this.state.type == 1 ? [
                     { column: 'cpf_cnpj', label: 'CNPJ', type: 'text', mask: "cpf_cnpj", validate: {min: 11, number: true, required: true}, validateHandler: validaCPFCNPJ, flexBasis: '12%', helperText: "o valor digitado é inválido" },
                     { column: 'company_name', label: 'Razão Social', type: 'text', validate: {max: 50, required: true}, flexBasis },
                     { column: 'fantasy_name', label: 'Nome Fantasia', type: 'text', validate: {max: 50, required: true}, flexBasis },
@@ -91,11 +55,7 @@ class CreateClients extends Component {
                     { column: 'file_cnh', label: 'Anexar CNH', type: 'file', flexBasis, style:{maxWidth: '180'} },
                     
                     //{ column: 'created_at', label: 'Data', type: 'date' },
-                ]
-            } : 
-            {
-                title: 'Dados Básicos',
-                fields: [
+                ]: [
                     { column: 'cpf_cnpj', label: 'CPF', type: 'text', mask: "999.999.999-99", validate: {min: 11, number: true, required: true},validateHandler: validaCpf, flexBasis: '12%', helperText: "o valor digitado é inválido" },
                     { column: 'cnh', label: 'Tipo de CNH', type: 'select', validate: {required: true}, 
                     values:[
@@ -113,7 +73,6 @@ class CreateClients extends Component {
                     
                     //{ column: 'created_at', label: 'Data', type: 'date' },
                 ]
-            }
         }
         
         const request = async (data) => {
@@ -124,7 +83,7 @@ class CreateClients extends Component {
             //delete data.addresses;
            // delete data.contacts;
 
-            let response = this.state.type == 0 ? await postApiClients(data) : await postApiDrivers(data);
+            let response =  this.state.type == 0 ? await postApiClients(data) : await postApiDrivers(data);
             //console.log(response);
             if (response.data.success) {
                 //this.props.enqueueSnackbar( response.data.message, { variant: 'success' });
@@ -156,7 +115,8 @@ class CreateClients extends Component {
         const validateFields = (fields, values) => {
             //console.log(fields);
             let campo = undefined;
-            fields.reverse().map((v,k) => {
+            let fieldl = fields;
+            fieldl.reverse().map((v,k) => {
                 v.fields.reverse().map((v1,k1)=>{
                         let value = values[v1.column];
                         if (v1.validate !== undefined) {
@@ -166,17 +126,18 @@ class CreateClients extends Component {
                             }
 
                             if (v1.validate.max !== undefined) {
-                                if (value.length > v1.validate.max)
+                                if (value == undefined || value.length > v1.validate.max)
                                     campo = {id: v1.column, message: `O Campo ${v1.label}, tamanho máximo de ${v1.validate.max} caracteres exêdido` };
                             }
 
                             if (v1.validate.min !== undefined) {
-                                if (value.length < v1.validate.min)
+                                if (value == undefined || value.length < v1.validate.min)
                                     campo = {id: v1.column, message: `O Campo ${v1.label}, tamanho minimo de ${v1.validate.min} caracteres.` };
                             }
 
                             if (v1.validate.required !== undefined) {
-                                if (value.length == 0)
+                                console.log(v1.label + " " + value);
+                                if (value == undefined || value.length == 0)
                                     campo = {id: v1.column, message: `O Campo ${v1.label} é obrigatório` };
                             }
                         }
@@ -194,6 +155,81 @@ class CreateClients extends Component {
 
                 return campo === undefined ? true : false
         }
+        let empresa = [
+            {
+                title: 'Dados Básicos',
+                fields: [
+                    { column: 'cpf_cnpj', label: 'CNPJ', type: 'text', mask: "cpf_cnpj", validate: {min: 11, number: true, required: true}, validateHandler: validaCPFCNPJ, flexBasis: '12%', helperText: "o valor digitado é inválido" },
+                    { column: 'company_name', label: 'Razão Social', type: 'text', validate: {max: 50, required: true}, flexBasis },
+                    { column: 'fantasy_name', label: 'Nome Fantasia', type: 'text', validate: {max: 50, required: true}, flexBasis },
+                    { column: 'email', label: 'E-mail', type: 'email', validate: { max: 100 }, validateHandler: validaEmail, flexBasis},
+                    { column: 'phone', label: 'Telefone', type: 'text', mask: "(99)9 9999-9999", validate: { max: 15, required: true }, flexBasis},
+                    { column: 'mob_phone', label: 'Celular', type: 'text', mask: "(99)9 9999-9999", validate: { max: 15, required: true }, flexBasis},
+                    { column: 'file_cnh', label: 'Anexar CNH', validate: {required: true}, type: 'file', flexBasis, style:{maxWidth: '180'} },
+                    
+                    //{ column: 'created_at', label: 'Data', type: 'date' },
+                ]
+            },
+            {
+                id: 'addr',
+                title: 'Endereço',
+                //flexFlow: 'row no-wrap',
+                //json: "address",
+                fields: [
+                    { column: 'zipcode', label: 'CEP', type: 'text', mask: "99999-999", validate: { max: 9, required: true }, flexBasis: '9%'},
+                    { column: 'street', label: 'Endereço', validate: { max: 100, required: true }, type: 'text', flexBasis},
+                    { column: 'number', label: 'Número', type: 'number', validate: { number: true, required: true }, flexBasis: '9%'},
+                    { column: 'additional', label: 'Complemento', type: 'text', flexBasis: '10%'},
+                    {
+                        column: 'uf', label: 'Estado', type: 'select', validate: {required: true},
+                        values: ["Acre", "Alagoas", "Amazonas", "Amapá", "Bahia", "Ceará", "Brasília", "Espírito Santo", "Goiás", "Maranhão", "Minas Gerais", "Mato Grosso do Sul", "Mato Grosso", "Pará", "Paraíba", "Pernambuco", "Piauí", "Paraná", "Rio de Janeiro", "Rio Grande do Norte", "Rondônia", "Roraima", "Rio Grande do Sul", "Santa Catarina", "Sergipe", "São Paulo", "Tocantins"],
+                        flexBasis, flexGrow: 2, style: { minWidth: "192px" }
+                    },
+                    { column: 'city', label: 'Cidade', type: 'text', validate: { max: 100, required: true }, flexBasis },
+                ]
+            },
+        ];
+
+        let motorista = [
+            {
+                title: 'Dados Básicos',
+                fields: [
+                    { column: 'cpf_cnpj', label: 'CPF', type: 'text', mask: "999.999.999-99", validate: {min: 11, number: true, required: true},validateHandler: validaCpf, flexBasis: '12%', helperText: "o valor digitado é inválido" },
+                    { column: 'cnh', label: 'Tipo de CNH', type: 'select', validate: {required: true}, 
+                    values:[
+                        "A", "B", "C", "D", "E", "AB"
+                    ],flexBasis },
+                    { column: 'fullname', label: 'Nome', type: 'text', validate: {max: 50, required: true}, flexBasis },
+                    { column: 'mob_phone', label: 'Celular', type: 'text', mask: "(99)9 9999-9999", validate: { max: 15, required: true }, flexBasis},
+                    { column: 'file_cnh', label: 'Anexar CNH', validate: {required: true},type: 'file', flexBasis, style:{maxWidth: '180'} },
+                    { column: 'phone', label: 'Telefone', type: 'text', mask: "(99)9 9999-9999", validate: { max: 15, required: true }, flexBasis},
+                    { column: 'email', label: 'E-mail', type: 'email', validate: { max: 100 }, validateHandler: validaEmail, flexBasis},
+                    { column: 'birthdate', label: 'Data de nascimento', type: 'date', validate: {required: true}, validateHandler: isFutureData, flexBasis, style:{maxWidth: '210px'} },
+                    //
+                    
+                    { column: 'file_crlv', label: 'Anexar CRLV',validate: {required: true}, type: 'file', flexBasis, style:{maxWidth: '180'} },
+                    
+                ]
+            },
+            {
+                id: 'addr',
+                title: 'Endereço',
+                //flexFlow: 'row no-wrap',
+                //json: "address",
+                fields: [
+                    { column: 'zipcode', label: 'CEP', type: 'text', mask: "99999-999", validate: { max: 9, required: true }, flexBasis: '9%'},
+                    { column: 'street', label: 'Endereço', validate: { max: 100, required: true }, type: 'text', flexBasis},
+                    { column: 'number', label: 'Número', type: 'number', validate: { number: true, required: true }, flexBasis: '9%'},
+                    { column: 'additional', label: 'Complemento', type: 'text', flexBasis: '10%'},
+                    {
+                        column: 'uf', label: 'Estado', type: 'select', validate: {required: true},
+                        values: ["Acre", "Alagoas", "Amazonas", "Amapá", "Bahia", "Ceará", "Brasília", "Espírito Santo", "Goiás", "Maranhão", "Minas Gerais", "Mato Grosso do Sul", "Mato Grosso", "Pará", "Paraíba", "Pernambuco", "Piauí", "Paraná", "Rio de Janeiro", "Rio Grande do Norte", "Rondônia", "Roraima", "Rio Grande do Sul", "Santa Catarina", "Sergipe", "São Paulo", "Tocantins"],
+                        flexBasis, flexGrow: 2, style: { minWidth: "192px" }
+                    },
+                    { column: 'city', label: 'Cidade', type: 'text', validate: { max: 100, required: true }, flexBasis },
+                ]
+            },
+        ];
         return (
             <Fragment>
                 <AppBar position="static" style={{ padding: 10, marginTop: 10, marginBottom: 10 }}>
@@ -207,10 +243,7 @@ class CreateClients extends Component {
                     indicatorColor="primary"
                     //textColor="primary"
                     onChange={(e,val)=> {
-                        let forms = this.state.forms;
-                        forms[0] = postType();
-                        this.setState({...this.state,forms, type: val})
-                        ;
+                        this.setState({...this.state, type: val}) ;
                     }}
                     aria-label="Login"
                 >
@@ -218,9 +251,9 @@ class CreateClients extends Component {
                     <Tab style={{background: this.state.type == 1 ?'#132e79': '#ccc', color: this.state.type == 0 ?'#132e79': 'white'}} label="Profissional" />
                 </Tabs>
                 </Paper>
-                <LForms forms={this.state.forms}
+                <LForms forms={this.state.type == 0 ? empresa : motorista}
                     request={request} 
-                    validate={(values) => { return validateFields(this.state.forms,values)}}
+                    validate={(values) => { return validateFields(this.state.type == 0 ? empresa : motorista,values)}}
                     loading={this.state.loading}
                 />
             </Fragment>

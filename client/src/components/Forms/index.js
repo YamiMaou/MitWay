@@ -44,7 +44,7 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import { getApiDownloadFile } from '../../providers/api'
 import MaskedInput from 'react-text-mask';
 const idNumbers = [
-    'cpf', 'cnpj', 'zipcode', 'cpf_cnpj'
+    'cpf', 'cnpj', 'zipcode', 'cpf_cnpj', 'mob_phone', 'phone'
 ];
 
 // MASKED INPUTS 

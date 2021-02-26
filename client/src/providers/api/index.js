@@ -8,7 +8,7 @@ if (!process.env.NODE_ENV || process.env.NODE_ENV === 'development') {
 } else {
   apiHost = hostname;
 }
-apiHost = hostname;
+//apiHost = hostname;
 let token = localStorage.getItem("token");
 export const Api = () => {
   return axios.create({
@@ -140,6 +140,35 @@ export const putApiDrivers = async (id,params = {}) => {
   }
 }
 
+/// delete Driver
+export const deleteApiDrivers = async (id,params = {}) => {
+  //params.justification = params.justification  ?? "Update";
+  const data = new FormData();
+  data.append("_method", "delete");
+  Object.entries(params)
+    .map(([key, val]) => {
+      data.append(key, val);
+    });
+    
+  const options = {
+    method: 'POST',
+    //mode: 'cors', // pode ser cors ou basic(default)
+    headers: {
+      'Content-Type': 'multipart/form-data',
+      'Authorization': 'Bearer ' + token
+    },
+    data,
+    url: apiHost +  `/drivers/${id}`,
+  };
+  try{
+    const response = await axios(options);  // wrap in async function
+    return response;
+  } catch (error) {
+    console.log('Whoops! Houve um erro.', error.message || error)
+    return { data: { success: false, error, message: "problema ao se conectar com o servidor!" } }
+  }
+}
+
 // Clients
 
 /// list Clients
@@ -219,7 +248,34 @@ export const putApiClients = async (id,params = {}) => {
     return { data: { success: false, error, message: "problema ao se conectar com o servidor!" } }
   }
 }
-
+/// delete Clients
+export const deleteApiClients = async (id,params = {}) => {
+  //params.justification = params.justification  ?? "Update";
+  const data = new FormData();
+  data.append("_method", "delete");
+  Object.entries(params)
+    .map(([key, val]) => {
+      data.append(key, val);
+    });
+    
+  const options = {
+    method: 'POST',
+    //mode: 'cors', // pode ser cors ou basic(default)
+    headers: {
+      'Content-Type': 'multipart/form-data',
+      'Authorization': 'Bearer ' + token
+    },
+    data,
+    url: apiHost +  `/clients/${id}`,
+  };
+  try{
+    const response = await axios(options);  // wrap in async function
+    return response;
+  } catch (error) {
+    console.log('Whoops! Houve um erro.', error.message || error)
+    return { data: { success: false, error, message: "problema ao se conectar com o servidor!" } }
+  }
+}
 
 
 //

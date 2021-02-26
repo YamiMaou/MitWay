@@ -27,20 +27,17 @@ class ClientsController extends ControllersExtends
         $files = $files->multUpload($request, 'driver');
         $data = $files->request;
         try {
-            $drivers = [
-                "cpf_cnpj" => $request->cpf_cnpj,
-                "fullname" => $request->fullname,
-                "birthdate"=> $request->birthdate,
+            $clients = [
+                "cnpj_cpf" => $request->cnpj_cpf,
+                "company_name" => $request->company_name,
                 "mob_phone"=>$request->mob_phone,
                 "phone" => $request->phone,
                 "email" => $request->email,
-                "cnh" => $request->cnh,
+                "fantasy_name" => $request->fantasy_name,
+                "file_cnh" => $data["file_cnh"],
             ];
             if(isset($request->file_cnh)){
-                $drivers["file_cnh"] = $data["file_cnh"];
-            }
-            if(isset($request->file_cnh)){
-                $drivers["file_crlv"] = $data["file_crlv"];
+                $clients["file_cnh"] = $data["file_cnh"];
             }
             $address = [
                 "uf" => $request->uf,
@@ -51,10 +48,10 @@ class ClientsController extends ControllersExtends
                 "zipcode" => $request->zipcode,
             ];
             parent::withAndChange([
-                \App\Models\Driver::class => $drivers,
+                \App\Models\Client::class => $clients,
                 \App\Models\Addresses::class => $address,
             ],
-            ["permiss" => true, "key" => "driver_id"]);
+            ["permiss" => true, "key" => "client_id"]);
 
             return parent::update($validate, $id);
         } catch (\Exception $error) {

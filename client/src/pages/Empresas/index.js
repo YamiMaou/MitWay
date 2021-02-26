@@ -21,11 +21,11 @@ import Typography from '@material-ui/core/Typography';
 import LDataGrid from '../../components/List/datagrid';
 //
 import { setSnackbar } from '../../actions/appActions'
-import { getApiClients, putApiClients } from '../../providers/api'
+import { getApiClients, deleteApiDrivers } from '../../providers/api'
 
 import {InputCpf, stringCpf} from '../../providers/masks'
 import { IconButton, Toolbar } from '@material-ui/core';
-import { Add } from '@material-ui/icons';
+import { Add, Delete } from '@material-ui/icons';
 import { Link } from 'react-router-dom';
 import { DataGrid, RowsProp, ColDef, CheckCircleIcon } from '@material-ui/data-grid';
 
@@ -38,31 +38,18 @@ function BlockDialog(props) {
     };
     
     const send = async () => {
-        await putApiClients( props.id, {active: props.active ?? undefined, justification: justfy ?? 'Nenhuma'});
+        await deleteApiDrivers( props.id);
         props.handle(props.active)
         props.handleClose();
     }
     return (
       <div>
         <Dialog open={props.open} onClose={props.handleClose} aria-labelledby="form-dialog-title">
-          <DialogTitle id="form-dialog-title">{ props.active == 0 ? "B" : "desb" }loqueio de motorista</DialogTitle>
+          <DialogTitle id="form-dialog-title">Exclusão de Empresa</DialogTitle>
           <DialogContent>
             <DialogContentText>
-            
-                Confirma o { props.active == 0 ? "" : "des" }bloqueio do registro selecionado?
+                Confirma a exclusão do registro selecionado?
             </DialogContentText>
-            { props.active == 0 &&<TextField
-              autoFocus
-              margin="dense"
-              id="jistification"
-              label="Jistificativa"
-              type="text"
-              fullWidth
-              value={justfy}
-              onChange={(e) => {
-                setjustfy(e.target.value)
-              }}
-            /> }
           </DialogContent>
           <DialogActions>
             <Button onClick={props.handleClose} color="primary">
@@ -124,7 +111,24 @@ class Clients extends Component {
                             <EditIcon fontSize="small" />
                         </Button>
                     </Link>
-                      
+                    <Button
+                        variant="contained"
+                        color="primary"
+                        size="small"
+                        onClick={async (e)=> {
+                            console.log(params)
+                            const handle = (status) => {
+                                let row = params.row;
+                                delete params.row;
+                                params.row = row;
+                                //params.row.active = status;
+                            }
+                            this.setState({...this.state, blockDialog: {open: true, id: params.value, handle }})
+                        }}
+                        style={{ marginLeft: 16 }}
+                      >
+                        <Delete fontSize="small"/>
+                      </Button>
                     </div>
                   ),
             },

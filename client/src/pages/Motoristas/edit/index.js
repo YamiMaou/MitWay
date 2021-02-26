@@ -123,19 +123,19 @@ class EditDrivers extends Component {
             {
                 title: 'Dados Básicos',
                 fields: [
-                    { column: 'cpf_cnpj', label: 'CPF', value: this.state.driver['cpf_cnpj'], type: 'text', mask: InputCpf, validate: {min: 11, number: true, required: true},validateHandler: validaCpf, flexBasis: '12%', helperText: "o valor digitado é inválido" },
+                    { column: 'cpf_cnpj', label: 'CPF', value: this.state.driver['cpf_cnpj'], type: 'text', mask: "999.999.999-99", validate: {min: 11, number: true, required: true},validateHandler: validaCpf, flexBasis: '12%', helperText: "o valor digitado é inválido" },
                     { column: 'cnh', label: 'Tipo de CNH', type: 'select', validate: {required: true}, 
                     values:[
                         "A", "B", "C", "D", "E", "AB"
                     ], value: this.state.driver['cnh'],flexBasis },
                     { column: 'fullname', label: 'Nome', type: 'text', validate: {max: 50, required: true}, value: this.state.driver['fullname'], flexBasis },
-                    { column: 'mob_phone', label: 'Celular', type: 'text', mask: InputPhone, validate: { max: 15, required: true }, value: this.state.driver['mob_phone'], flexBasis},
-                    { column: 'file_cnh', label: 'Anexar CNH', file: this.state.driver['files_cnh'] ? this.state.driver['files_cnh'].name : '', type: 'file', flexBasis:'15%', style:{maxWidth: '180'} },
-                    { column: 'phone', label: 'Telefone', type: 'text', mask: InputPhone, validate: { max: 15, required: true }, value: this.state.driver['phone'], flexBasis},
+                    { column: 'mob_phone', label: 'Celular', type: 'text', mask: "(99)9 9999-9999", validate: { max: 15, required: true }, value: this.state.driver['mob_phone'], flexBasis},
+                    { column: 'file_cnh', label: 'Anexar CNH', validate: {required: true}, file: this.state.driver['files_cnh'] ? this.state.driver['files_cnh'].name : '', type: 'file', flexBasis:'15%', style:{maxWidth: '180'} },
+                    { column: 'phone', label: 'Telefone', type: 'text', mask: "(99)9 9999-9999", validate: { max: 15, required: true }, value: this.state.driver['phone'], flexBasis},
                     { column: 'email', label: 'E-mail', type: 'email', validate: { max: 100 }, validateHandler: validaEmail, value: this.state.driver['email'], flexBasis},
                     { column: 'birthdate', label: 'Data de nascimento', type: 'date', validate: {required: true}, validateHandler: isFutureData, flexBasis, value: this.state.driver['birthdate'], style:{maxWidth: '210px'} },
                     //
-                    { column: 'file_crlv', label: 'Anexar CRLV', file: this.state.driver['files_crlv'] ? this.state.driver['files_crlv'].name : '', type: 'file', flexBasis:'15%', style:{maxWidth: '180'} },
+                    { column: 'file_crlv', label: 'Anexar CRLV', validate: {required: true}, file: this.state.driver['files_crlv'] ? this.state.driver['files_crlv'].name : '', type: 'file', flexBasis:'15%', style:{maxWidth: '180'} },
                     
                     //{ column: 'created_at', label: 'Data', type: 'date' },
                 ]
@@ -146,12 +146,12 @@ class EditDrivers extends Component {
                 //flexFlow: 'row no-wrap',
                 //json: "address",
                 fields: [
-                    { column: 'zipcode', label: 'CEP', type: 'text', mask: InputCep, validate: { max: 9, required: true }, flexBasis: '9%', value: this.state.driver['addresses'].zipcode },
+                    { column: 'zipcode', label: 'CEP', type: 'text', mask: "99999-999", validate: { max: 9, required: true }, flexBasis: '9%', value: this.state.driver['addresses'].zipcode },
                     { column: 'street', label: 'Endereço', validate: { max: 100, required: true }, type: 'text', flexBasis, value: this.state.driver['addresses'].street },
                     { column: 'number', label: 'Número', type: 'number', validate: { number: true, required: true }, value: this.state.driver['addresses'].number, flexBasis: '9%'},
                     { column: 'additional', label: 'Complemento', type: 'text', flexBasis:'10%', value: this.state.driver['addresses'].additional },
                     {
-                        column: 'uf', label: 'Estado', type: 'select',
+                        column: 'uf', label: 'Estado', type: 'select', validate: {required: true},
                         values: ["Acre", "Alagoas", "Amazonas", "Amapá", "Bahia", "Ceará", "Brasília", "Espírito Santo", "Goiás", "Maranhão", "Minas Gerais", "Mato Grosso do Sul", "Mato Grosso", "Pará", "Paraíba", "Pernambuco", "Piauí", "Paraná", "Rio de Janeiro", "Rio Grande do Norte", "Rondônia", "Roraima", "Rio Grande do Sul", "Santa Catarina", "Sergipe", "São Paulo", "Tocantins"],
                         value:this.state.driver['addresses'].uf, flexBasis, flexGrow: 2, style: { minWidth: "192px" }
                     },

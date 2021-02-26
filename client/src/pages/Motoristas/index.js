@@ -21,48 +21,34 @@ import Typography from '@material-ui/core/Typography';
 import LDataGrid from '../../components/List/datagrid';
 //
 import { setSnackbar } from '../../actions/appActions'
-import { getApiDrivers, putApiDrivers } from '../../providers/api'
+import { getApiDrivers, deleteApiDrivers } from '../../providers/api'
 
 import {InputCpf, stringCpf} from '../../providers/masks'
 import { IconButton, Toolbar } from '@material-ui/core';
-import { Add } from '@material-ui/icons';
+import { Add, Delete } from '@material-ui/icons';
 import { Link } from 'react-router-dom';
 import { DataGrid, RowsProp, ColDef, CheckCircleIcon } from '@material-ui/data-grid';
+import RemoteCard from '../../components/List/RemoteCard';
 
 function BlockDialog(props) {
     const [open, setOpen] = React.useState(props.open);
-    const [justfy, setjustfy] = React.useState(undefined);
     
     const handleClose = () => {
       setOpen(false);
     };
     
     const send = async () => {
-        await putApiContributors( props.id, {active: props.active ?? undefined, justification: justfy ?? 'Nenhuma'});
-        props.handle(props.active)
+        //await deleteApiDrivers( props.id);
         props.handleClose();
     }
     return (
       <div>
         <Dialog open={props.open} onClose={props.handleClose} aria-labelledby="form-dialog-title">
-          <DialogTitle id="form-dialog-title">{ props.active == 0 ? "B" : "desb" }loqueio de motorista</DialogTitle>
+          <DialogTitle id="form-dialog-title">Exclusão de Motorista</DialogTitle>
           <DialogContent>
             <DialogContentText>
-            
-                Confirma o { props.active == 0 ? "" : "des" }bloqueio do registro selecionado?
+                Confirma a exclusão do registro selecionado?
             </DialogContentText>
-            { props.active == 0 &&<TextField
-              autoFocus
-              margin="dense"
-              id="jistification"
-              label="Jistificativa"
-              type="text"
-              fullWidth
-              value={justfy}
-              onChange={(e) => {
-                setjustfy(e.target.value)
-              }}
-            /> }
           </DialogContent>
           <DialogActions>
             <Button onClick={props.handleClose} color="primary">
@@ -114,7 +100,7 @@ class Drivers extends Component {
                 flex: 1,
                 renderCell: (params: ValueFormatterParams, row: RowIdGetter) => (
                         
-                    <div>
+                <div>
                     <Link to={`/motoristas/${params.value}`} style={{textDecoration: 'none'}} >
                         <Button
                             variant="contained"
@@ -124,8 +110,7 @@ class Drivers extends Component {
                             <EditIcon fontSize="small" />
                         </Button>
                     </Link>
-                      
-                    </div>
+                </div>
                   ),
             },
         ];
@@ -151,6 +136,7 @@ class Drivers extends Component {
                     </Toolbar>
                     
                 </AppBar>
+                    {window.innerWidth > 720 ?(
                     <LDataGrid rows={rows} columns={columns} filterInputs={filter} 
                     pageRequest={
                         (params) => {
@@ -159,7 +145,15 @@ class Drivers extends Component {
                             }
                             this.setState({...this.state, pageRequest: params})
                             return getApiDrivers(params)
-                    }} />
+                    }} />) : (
+                        <RemoteCard rows={this.state.contributors.data ?? []} columns={
+                            {
+                                fullname: {
+                                    label: "Nome Completo"
+                                },
+                                cpf_cnpj: { label: "CPF"}
+                            }} />
+                    )}
                         <BlockDialog 
                             open={this.state.blockDialog.open} 
                             id={this.state.blockDialog.id}

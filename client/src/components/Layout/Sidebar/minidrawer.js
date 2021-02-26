@@ -21,7 +21,7 @@ import HomeIcon from '@material-ui/icons/Home';
 import PersonIcon from '@material-ui/icons/Person';
 import { Link } from 'react-router-dom';
 import { styles } from './style';
-import { AddCircleOutlineRounded, AddIcCallOutlined, CardTravelOutlined, LocalShippingOutlined } from '@material-ui/icons';
+import { AddCircleOutlineRounded, AddIcCallOutlined, CardTravelOutlined, LocalShippingOutlined, PowerOffRounded } from '@material-ui/icons';
 const drawerWidth = 240;
 
 const useStyles = makeStyles((theme) => ({
@@ -47,7 +47,11 @@ const useStyles = makeStyles((theme) => ({
   },
   menuButton: {
     marginRight: 36,
-    background: '025ea2',
+    background: '#132e79',
+    color: "white",
+    [`& :hover`]: {
+      backgroundColor: "#132e79",
+    },
   },
   hide: {
     display: 'none',
@@ -89,7 +93,7 @@ const useStyles = makeStyles((theme) => ({
   },
   content: {
     flexGrow: 1,
-    padding: theme.spacing(3),
+    //padding: theme.spacing(3),
   },
 }));
 
@@ -130,7 +134,7 @@ export default function MiniDrawer(props) {
             <MenuIcon />
           </IconButton>
           <Typography variant="h6" noWrap style={{color: '#333'}}>
-            MitWay
+            
           </Typography>
         </Toolbar>
       </AppBar>
@@ -150,7 +154,7 @@ export default function MiniDrawer(props) {
       >
         <div className={classes.toolbar}>
           <IconButton onClick={handleDrawerClose}>
-            {theme.direction === 'rtl' ? <ChevronRightIcon /> : <ChevronLeftIcon />}
+            {theme.direction === 'rtl' ? <ChevronRightIcon style={{color:"#fff"}} /> : <ChevronLeftIcon style={{color:"#fff"}} />}
           </IconButton>
         </div>
         <Divider />
@@ -186,6 +190,18 @@ export default function MiniDrawer(props) {
               <ListItemText style={{color:"#fff"}} primary={"Empresas"} />
             </ListItem>
           </Link>
+
+          <ListItem button key={"Sair"} onClick={() => {
+              //console.log(props.auth)
+              localStorage.removeItem("user");
+              localStorage.removeItem("token");
+              props.setAuth(undefined);
+              setAnchorEl(null);
+              window.location.href="/login";
+          }}>
+              <ListItemIcon><PowerOffRounded style={{color:"#fff"}} /></ListItemIcon>
+              <ListItemText style={{color:"#fff"}} primary={"Sair"} />
+          </ListItem>
           
         </List>
         { /*<Divider />
@@ -201,7 +217,6 @@ export default function MiniDrawer(props) {
       </div>
       )}
       <main className={classes.content}>
-        <div className={classes.toolbar} />
         {(props.component)}
       </main>
     </div>

@@ -193,15 +193,12 @@ abstract class ControllersExtends extends Controller implements ControllersInter
 
     public function destroy(Request $request, $id)
     {
-        $this->saveLog($id, $request);
+        //$this->saveLog($id, $request);
         try {
             $this->model->destroy($id);
-            $break = isset($_COOKIE['url']) ? $_COOKIE['url'] : "/home";
-            $break = str_replace(['https', 'http', '://'], '', $break);
-            $break = explode("/", $break);
-            return response()->json(["type" => "delete", "message" => "Deletado com Sucesso!", "url" => "/".$break[1]]);
+            return response()->json(["type" => "delete", "message" => "Deletado com Sucesso!"]);
         } catch (Exception $error) {
-            return response()->json(["type" => "error", "message" => "Problema ao Deletar. "], 500);
+            return response()->json(["type" => "error", "message" => "Problema ao Deletar. ", "error" => $error->getMessage() ], 200);
         }
     }
 

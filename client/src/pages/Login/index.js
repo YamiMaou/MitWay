@@ -14,13 +14,14 @@ import Slide from '@material-ui/core/Slide';
 import logo from '../../../assets/logo.png'
 
 import InputMask from 'react-input-mask';
-import { Typography } from '@material-ui/core';
+import { IconButton, Typography } from '@material-ui/core';
 import Paper from '@material-ui/core/Paper';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import PersonOutlinedIcon from '@material-ui/icons/PersonOutlined';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
+import ArrowForwardRoundedIcon from '@material-ui/icons/ArrowForwardRounded';
 
 const useStyles = makeStyles((theme) => ({
   dots: {
@@ -38,7 +39,7 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   root: {
-    maxWidth: 350,
+    maxWidth: window.innerWidth > 720 ? 350 : '100%',
     display: 'flex',
     flexDirection: 'column',
     margin: 'auto'
@@ -104,20 +105,18 @@ function FullScreenInvoiceDialog(props) {
   }
   //
   return (
-    <div style={{
+    <div id="rootLogin" style={{
       flex: 1,
       top: 0,
       display: 'flex',
-      marginTop: -89,
-      marginLeft: -24,
-      flexDirection: 'row'
+      flexDirection: 'row',
     }}>
       <div style={{
         flexBasis: '42%',
         background: '#132e79',
-        height: window.innerHeight
+        height: (window.innerHeight/100*100)
       }}>
-      <div style={{marginRight: 35, marginTop: 65, display: 'flex', justifyContent:'flex-end', flexDirection: 'row'}}>
+      <div style={{ marginRight: 35, marginTop: 65, display: window.innerWidth > 720 ? 'flex' : 'none', justifyContent:'flex-end', flexDirection: 'row'}}>
         <span className={classes.dots} style={{background: '#0065b6' ,width: 64, borderRadius: 30}}></span>
         <span className={classes.dots}></span>
         <span className={classes.dots}></span>
@@ -142,7 +141,7 @@ function FullScreenInvoiceDialog(props) {
           </Typography>
         </div>
         <div className={classes.root} style={{marginLeft: 15}}>
-        <Paper square style={{width: 320, marginBottom: 10}}>
+        <Paper square style={{width: window.innerWidth > 720 ? 320 : '100%', marginBottom: 10}}>
           <Tabs
             value={value}
             indicatorColor="primary"
@@ -150,8 +149,8 @@ function FullScreenInvoiceDialog(props) {
             onChange={handleChange}
             aria-label="Login"
           >
-              <Tab style={{background: value == 0 ?'#132e79': '#ccc', color: value == 1 ?'#132e79': 'white'}} label="Empresa" />
-              <Tab style={{background: value == 1 ?'#132e79': '#ccc', color: value == 0 ?'#132e79': 'white'}} label="Profissional" />
+              <Tab style={{width: '50%', background: value == 0 ?'#132e79': '#ccc', color: value == 1 ?'#132e79': 'white'}} label="Empresa" />
+              <Tab style={{width: '50%', background: value == 1 ?'#132e79': '#ccc', color: value == 0 ?'#132e79': 'white'}} label="Profissional" />
           </Tabs>
           </Paper>
             <div>
@@ -199,12 +198,8 @@ function FullScreenInvoiceDialog(props) {
                 }}/>
               </div>
             </div>
-            
-         
           <div style={{
-            
             justifyContent: 'start'
-            
           }}>
             <div style={{marginTop: 15,marginBottom: 15}}>
               <a href="">Esqueceu a senha?</a>
@@ -212,14 +207,26 @@ function FullScreenInvoiceDialog(props) {
             
             <br /> 
             {!loading ? (
-            <Button variant="contained" size="large" color="primary" disableElevation type="submit" form="loginform"
-            style={{
-              background: 'linear-gradient(45deg, 132e79 30%, #025ea2 90%)',
-            }}>
-              Entrar 
-            </Button>
+              window.innerWidth > 720 ?  
+                <Button variant="contained" size="large" color="primary" disableElevation type="submit" form="loginform"
+                style={{
+                  background: 'linear-gradient(45deg, 132e79 30%, #025ea2 90%)',
+                }}>
+                  Entrar 
+                </Button> : 
+                <IconButton style={{
+                  display: 'flex',
+                  margin: 'auto',
+                  background: '#132e79',
+                  color: "white",
+                  [`& :hover`]: {
+                    backgroundColor: "#132e79",
+                  },
+                    }} size="large" variant="contained" color="primary" type="submit" form="loginform">
+                  <ArrowForwardRoundedIcon />
+                </IconButton>
             ) : (
-            <CircularProgress style={{margin: 'auto'}} />
+            <CircularProgress style={{display: 'flex',margin: 'auto'}} />
             )}
             
           </div>
